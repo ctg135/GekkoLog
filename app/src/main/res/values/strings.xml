@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GekkoLog</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Главная</string>
+    <string name="title_pets">Питомцы</string>
+    <string name="title_journal">Журнал</string>
+    <string name="title_info">Справка</string>
 </resources>

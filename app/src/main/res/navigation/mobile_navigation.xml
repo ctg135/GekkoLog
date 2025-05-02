@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
+    android:label="@string/title_pets"
     app:startDestination="@+id/navigation_home">
 
     <fragment
@@ -12,14 +13,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="salabaev.gekkolog.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_pets"
+        android:name="salabaev.gekkolog.ui.pets.PetsFragment"
+        android:label="@string/title_pets"
+        tools:layout="@layout/fragment_pets" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="salabaev.gekkolog.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/navigation_journal"
+        android:name="salabaev.gekkolog.ui.journal.JournalFragment"
+        android:label="@string/title_journal"
+        tools:layout="@layout/fragment_journal" />
+
+    <fragment
+        android:id="@+id/navigation_info"
+        android:name="salabaev.gekkolog.ui.info.InfoFragment"
+        android:label="@string/title_info"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
