@@ -37,6 +37,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -51,6 +54,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,4 +82,7 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$roomVersion")
+
+    // Glide, for images
+    implementation("com.github.bumptech.glide:glide:4.12.0")
 }

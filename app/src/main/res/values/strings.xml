@@ -4,4 +4,6 @@
     <string name="title_pets">Питомцы</string>
     <string name="title_journal">Журнал</string>
     <string name="title_info">Справка</string>
+    <string name="image_gecko">Изображение вашего геккона</string>
+    <string name="text_gecko_list">Список ваших питомцев</string>
 </resources>
