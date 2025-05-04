@@ -16,5 +16,14 @@ class GeckoRepository(private val dao: GeckoDao) {
         }
     }
 
+    fun updateGecko(gecko: Gecko){
+        corotineScope.launch(Dispatchers.IO) {
+            dao.updateGecko(gecko)
+        }
+    }
+
+    fun getGecko(geckoId: Int): LiveData<Gecko> {
+        return dao.getGecko(geckoId)
+    }
 
 }

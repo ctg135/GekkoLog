@@ -16,7 +16,11 @@
         android:id="@+id/navigation_pets"
         android:name="salabaev.gekkolog.ui.pets.PetsFragment"
         android:label="@string/title_pets"
-        tools:layout="@layout/fragment_pets" />
+        tools:layout="@layout/fragment_pets" >
+        <action
+            android:id="@+id/action_navigation_pets_to_petEditFragment"
+            app:destination="@id/petEditFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_journal"
@@ -29,4 +33,8 @@
         android:name="salabaev.gekkolog.ui.info.InfoFragment"
         android:label="@string/title_info"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/petEditFragment"
+        android:name="salabaev.gekkolog.ui.pets.edit.PetEditFragment"
+        android:label="PetEditFragment" />
 </navigation>

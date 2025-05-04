@@ -6,4 +6,11 @@
     <string name="title_info">Справка</string>
     <string name="image_gecko">Изображение вашего геккона</string>
     <string name="text_gecko_list">Список ваших питомцев</string>
+    <string name="save">Сохранить</string>
+    <!-- Редактирование геккона -->
+    <string name="tap_to_change_photo">Нажмите для изменения фото</string>
+    <string name="name_gekko">Имя питомца</string>
+    <string name="age_gekko">Дата рождения</string>
+    <string name="morph_gekko">Морфа</string>
+    <string name="feed_period_gekko">Период кормления (дней)</string>
 </resources>

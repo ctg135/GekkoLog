@@ -6,11 +6,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName="geckos")
 class Gecko() {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-    var name: String? = null
-    var morph: String? = null
-    var gender: String? = null
-    var feedPeriod: Int? = null
-    var photoPath: String? = null
+    public var id: Int = 0
+    public var name: String? = null
+    public var morph: String? = null
+    public var gender: String? = null
+    public var feedPeriod: Int? = null
+    public var photoPath: String? = null
 
 }

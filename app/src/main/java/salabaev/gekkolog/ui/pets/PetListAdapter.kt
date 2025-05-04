@@ -2,6 +2,9 @@ package salabaev.gekkolog.ui.pets
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,6 +13,7 @@ import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoDiffCallback
 import salabaev.gekkolog.databinding.ItemGeckoBinding
 import java.io.File
+import android.util.Log
 
 
 
@@ -47,6 +51,17 @@ class PetListAdapter : ListAdapter<Gecko, PetListAdapter.GeckoViewHolder>(GeckoD
                     else -> ""
                 }
                 geckoMorph.text = gecko.morph ?: "Морфа не указана"
+
+                binding.root.setOnClickListener {
+                    Log.d("PetListAdapter", gecko.id.toString())
+                    var bundle = bundleOf("geckoId" to gecko.id)
+
+                    findNavController(binding.root).navigate(R.id.action_navigation_pets_to_petEditFragment, bundle)
+
+//                    val bundle = Bundle().apply {
+//                        putInt("geckoId", gecko.id)
+//                    }
+                }
             }
         }
     }
