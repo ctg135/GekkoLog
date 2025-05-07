@@ -151,11 +151,20 @@ class PetEditFragment : Fragment() {
             morph = binding.morphEdit.text.toString()
             gender = binding.genderEdit.text.toString()
             feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull()
-            currentPhotoUri?.let { uri ->
-                photoPath = saveImageToInternalStorage(uri).absolutePath
+            viewModel.gecko.observe(viewLifecycleOwner) { geckoViewModel ->
+                if (currentPhotoUri != null) {
+                    // Если выбрано новое фото
+                    photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                } else if (geckoViewModel?.photoPath != null) {
+                    // Если фото не изменялось
+                    photoPath = geckoViewModel.photoPath
+                }
+                else {
+                    // Если фото не было выбрано
+                    photoPath = null
+                }
             }
         }
-
         viewModel.saveGecko(gecko)
         findNavController().popBackStack()
     }
