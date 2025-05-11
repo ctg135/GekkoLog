@@ -21,6 +21,9 @@ interface GeckoDao {
     @Delete
     fun deleteGecko(gecko: Gecko)
 
+    @Query("DELETE FROM geckos WHERE id = :id")
+    fun deleteGecko(id: Int)
+
     @Update
     fun updateGecko(gecko: Gecko)
 }

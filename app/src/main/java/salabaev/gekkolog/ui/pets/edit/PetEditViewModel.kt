@@ -32,9 +32,11 @@ class PetEditViewModel (private val repository: GeckoRepository): ViewModel() {
         }
     }
 
-    fun deleteGecko(gecko: Gecko) {
+    fun deleteGecko(geckoId: Int) {
         viewModelScope.launch {
-            repository.deleteGecko(gecko)
+            if (geckoId != 0) {
+                repository.deleteGecko(geckoId)
+            }
         }
     }
 }

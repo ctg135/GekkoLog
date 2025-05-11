@@ -1,6 +1,7 @@
 package salabaev.gekkolog.ui.pets.edit
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -65,7 +66,7 @@ class PetEditFragment : Fragment() {
     private fun setupViews() {
         binding.geckoImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveGecko() }
-        binding.deleteButton.setOnClickListener { deleteGecko() }
+        binding.deleteButton.setOnClickListener { alertDeletePet() }
         binding.ageEdit.setOnClickListener {
             showDatePickerDialog(requireContext()) { ageText ->
                 binding.ageEdit.setText(ageText)
@@ -140,22 +141,42 @@ class PetEditFragment : Fragment() {
                     photoPath = null
                 }
             }
+            if (id == 0 && currentPhotoUri != null) {
+                photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+            }
         }
         viewModel.saveGecko(gecko)
         findNavController().popBackStack()
     }
 
-    private fun deleteGecko() {
+    private fun alertDeletePet() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder
+            .setMessage("Вы уверены?")
+            .setTitle("Удаление питомца")
+            .setCancelable(true)
+            .setPositiveButton("Да"){ _, _ ->
+                deletePet()
+            }
+            .setNegativeButton("Нет"){ dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun deletePet() {
         val geckoId = arguments?.getInt("geckoId") ?: 0
         if (geckoId != 0) {
-            var localGecko: Gecko
-            viewModel.gecko.observe(viewLifecycleOwner) {
-                localGecko = it!!
-                viewModel.deleteGecko(localGecko)
+            viewModel.deleteGecko(geckoId)
+            viewModel.gecko.value?.photoPath?.let { path ->
+                File(path).takeIf { it.exists() }?.delete()
             }
         }
         findNavController().popBackStack()
     }
+    
 
     private fun saveImageToInternalStorage(uri: Uri): File {
         val inputStream = requireContext().contentResolver.openInputStream(uri)
