@@ -14,5 +14,8 @@
     <string name="name_gekko">Имя питомца</string>
     <string name="age_gekko">Дата рождения</string>
     <string name="morph_gekko">Морфа</string>
+    <string name="gender_gekko">Пол</string>
+    <string name="male">Самец</string>
+    <string name="female">Самка</string>
     <string name="feed_period_gekko">Период кормления (дней)</string>
 </resources>

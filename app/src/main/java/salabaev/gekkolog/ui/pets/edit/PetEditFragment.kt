@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.databinding.FragmentPetEditBinding
@@ -19,6 +20,7 @@ import java.io.FileOutputStream
 import androidx.core.os.bundleOf
 import salabaev.gekkolog.ui.utils.DatePickerHelper.showDatePickerDialog
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
 class PetEditFragment : Fragment() {
 
@@ -72,6 +74,23 @@ class PetEditFragment : Fragment() {
                 binding.ageEdit.setText(ageText)
             }
         }
+        val genders = listOf(
+            Pair("M", getString(salabaev.gekkolog.R.string.male)),  // "M" - значение для базы, "Самец" - отображаемый текст
+            Pair("F", getString(salabaev.gekkolog.R.string.female))) // "F" - значение для базы, "Самка" - отображаемый текст
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            salabaev.gekkolog.R.layout.item_dropdown_menu_1line,
+            genders.map { it.second }
+        )
+
+        val genderDropdown = binding.genderEdit
+        genderDropdown.setAdapter(adapter)
+
+        genderDropdown.setOnItemClickListener { _, _, position, _ ->
+            // Сохраняем выбранное значение ("M" или "F") в тег
+            genderDropdown.tag = genders[position].first
+        }
     }
 
     private fun observeViewModel() {
@@ -91,7 +110,6 @@ class PetEditFragment : Fragment() {
     private fun updateUI(gecko: Gecko) {
         binding.nameEdit.setText(gecko.name)
         binding.morphEdit.setText(gecko.morph)
-        binding.genderEdit.setText(gecko.gender)
         binding.feedPeriodEdit.setText(gecko.feedPeriod?.toString())
 
         // Загрузка изображения
@@ -99,6 +117,18 @@ class PetEditFragment : Fragment() {
             Glide.with(this)
                 .load(File(path))
                 .into(binding.geckoImage)
+        }
+
+        val genderDropdown = binding.genderEdit as MaterialAutoCompleteTextView
+        when (gecko.gender) {
+            "M" -> {
+                genderDropdown.setText(getString(salabaev.gekkolog.R.string.male), false)
+                genderDropdown.tag = "M"
+            }
+            "F" -> {
+                genderDropdown.setText(getString(salabaev.gekkolog.R.string.female), false)
+                genderDropdown.tag = "F"
+            }
         }
     }
 
@@ -126,7 +156,7 @@ class PetEditFragment : Fragment() {
             id = arguments?.getInt("geckoId") ?: 0
             name = binding.nameEdit.text.toString()
             morph = binding.morphEdit.text.toString()
-            gender = binding.genderEdit.text.toString()
+            gender = binding.genderEdit.tag?.toString() ?: ""
             feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull()
             viewModel.gecko.observe(viewLifecycleOwner) { geckoViewModel ->
                 if (currentPhotoUri != null) {
