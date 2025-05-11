@@ -19,7 +19,7 @@ import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import java.io.FileOutputStream
 import androidx.core.os.bundleOf
-import salabaev.gekkolog.ui.utils.DatePickerHelper.showDatePickerDialog
+import salabaev.gekkolog.ui.utils.DatePickerHelper
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 
@@ -40,7 +40,10 @@ class PetEditFragment : Fragment() {
     private var _binding: FragmentPetEditBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: PetEditViewModel
+
+    // Переменные для получения данных из форм
     private var currentPhotoUri: Uri? = null
+    private var selectedBirthDate: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,17 +74,14 @@ class PetEditFragment : Fragment() {
         // Выбор аватарки
         binding.geckoImage.setOnClickListener { selectImageFromGallery() }
         // Сохранение питомца
-        binding.saveButton.setOnClickListener { saveGecko() }
+        binding.saveButton.setOnClickListener { savePet() }
         // Удаление питомца
         binding.deleteButton.setOnClickListener { alertDeletePet() }
         // Выбор периода для кормления
         binding.feedPeriodEdit.setOnClickListener { showFeedPeriodPicker() }
         // Для выбора возраста
-        binding.ageEdit.setOnClickListener {
-            showDatePickerDialog(requireContext()) { ageText ->
-                binding.ageEdit.setText(ageText)
-            }
-        }
+        binding.birthDateEdit.setOnClickListener { showBirthDatePicker() }
+
         // Для выбора пола
         val genders = listOf(
             // "M" - значение для базы, "Самец" - отображаемый текст
@@ -125,6 +125,11 @@ class PetEditFragment : Fragment() {
         binding.nameEdit.setText(gecko.name)
         binding.morphEdit.setText(gecko.morph)
         binding.feedPeriodEdit.setText(gecko.feedPeriod?.toString() ?: "1")
+
+        gecko.birthDate?.let {
+            selectedBirthDate = it
+            binding.birthDateEdit.setText(DatePickerHelper.formatDate(it))
+        }
 
         // Загрузка аватарки питомца
         gecko.photoPath?.let { path: String ->
@@ -180,13 +185,14 @@ class PetEditFragment : Fragment() {
     }
 
     // Сохранение в БД
-    private fun saveGecko() {
+    private fun savePet() {
         val gecko = Gecko().apply {
             id = arguments?.getInt("geckoId") ?: 0
             name = binding.nameEdit.text.toString()
             morph = binding.morphEdit.text.toString()
             gender = binding.genderEdit.tag?.toString() ?: ""
             feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull() ?: 1
+            birthDate = selectedBirthDate ?: viewModel.gecko.value?.birthDate
             // TODO: Добавить автоматическое пересоздание напоминания кормления
             viewModel.gecko.observe(viewLifecycleOwner) { geckoViewModel ->
                 if (currentPhotoUri != null) {
@@ -201,6 +207,7 @@ class PetEditFragment : Fragment() {
                     photoPath = null
                 }
             }
+            // Если геккон только создан и было выбрано фото
             if (id == 0 && currentPhotoUri != null) {
                 photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
             }
@@ -259,6 +266,16 @@ class PetEditFragment : Fragment() {
             }
             setNegativeButton("Отмена", null)
         }.show()
+    }
+
+    private fun showBirthDatePicker() {
+        DatePickerHelper.showDatePickerDialog(
+            requireContext(),
+            selectedBirthDate ?: viewModel.gecko.value?.birthDate
+        ) { dateMillis, formattedDate ->
+            selectedBirthDate = dateMillis
+            binding.birthDateEdit.setText(formattedDate)
+        }
     }
 
     override fun onDestroyView() {

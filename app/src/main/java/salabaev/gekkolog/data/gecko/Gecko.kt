@@ -12,5 +12,5 @@ class Gecko() {
     public var gender: String? = null
     public var feedPeriod: Int? = null
     public var photoPath: String? = null
-
+    public var birthDate: Long? = null
 }

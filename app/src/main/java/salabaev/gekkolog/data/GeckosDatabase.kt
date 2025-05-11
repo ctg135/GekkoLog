@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoDao
 
-@Database(entities = [(Gecko::class)], version = 1, exportSchema = false)
+@Database(entities = [(Gecko::class)], version = 2, exportSchema = false)
 abstract class GeckosDatabase: RoomDatabase() {
     abstract fun GeckoDao(): GeckoDao
 

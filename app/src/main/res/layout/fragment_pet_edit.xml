@@ -95,25 +95,25 @@
             android:hint="@string/age_gekko">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ageEdit"
+                android:id="@+id/birthDateEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:inputType="number" />
+                android:clickable="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/save" />
 
         <Button
             android:id="@+id/deleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/delete" />
 
     </LinearLayout>

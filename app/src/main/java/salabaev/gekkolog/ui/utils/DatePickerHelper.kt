@@ -2,22 +2,29 @@ package salabaev.gekkolog.ui.utils
 
 import android.app.DatePickerDialog
 import android.content.Context
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 object DatePickerHelper {
+
     fun showDatePickerDialog(
         context: Context,
-        onDateSelected: (String) -> Unit
+        initialDate: Long? = null,
+        onDateSelected: (date: Long, formattedDate: String) -> Unit
     ) {
         val calendar = Calendar.getInstance()
+        initialDate?.let { calendar.timeInMillis = it }
+
         DatePickerDialog(
             context,
             { _, year, month, day ->
-                val selectedDate = Calendar.getInstance().apply {
+                val selectedCalendar = Calendar.getInstance().apply {
                     set(year, month, day)
                 }
-                val ageText = calculateAge(selectedDate)
-                onDateSelected(ageText)
+                val formattedDate = formatDate(selectedCalendar.time)
+                onDateSelected(selectedCalendar.timeInMillis, formattedDate)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
@@ -25,10 +32,11 @@ object DatePickerHelper {
         ).show()
     }
 
-    fun calculateAge(birthDate: Calendar): String {
-        val today = Calendar.getInstance()
-        val years = today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR)
-        val months = today.get(Calendar.MONTH) - birthDate.get(Calendar.MONTH)
-        return "$years лет ${months} месяцев"
+    private fun formatDate(date: Date): String {
+        return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
+    }
+
+    fun formatDate(timestamp: Long): String {
+        return formatDate(Date(timestamp))
     }
 }
