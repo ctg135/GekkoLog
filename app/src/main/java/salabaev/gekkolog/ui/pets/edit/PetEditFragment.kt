@@ -268,14 +268,17 @@ class PetEditFragment : Fragment() {
         }.show()
     }
 
+    // Отображение диалогового окна с выбором даты рождения
     private fun showBirthDatePicker() {
         DatePickerHelper.showDatePickerDialog(
             requireContext(),
-            selectedBirthDate ?: viewModel.gecko.value?.birthDate
-        ) { dateMillis, formattedDate ->
-            selectedBirthDate = dateMillis
-            binding.birthDateEdit.setText(formattedDate)
-        }
+            initialDate = selectedBirthDate ?: viewModel.gecko.value?.birthDate,
+            maxDate = System.currentTimeMillis(),
+            onDateSelected = { dateMillis, formattedDate ->
+                selectedBirthDate = dateMillis
+                binding.birthDateEdit.setText(formattedDate)
+            }
+        )
     }
 
     override fun onDestroyView() {

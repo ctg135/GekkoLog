@@ -19,10 +19,9 @@
             android:id="@+id/geckoImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_gekko_colored"
             android:contentDescription="@string/image_gecko"
-        />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_gekko_colored" />
 
         <!-- Текст справа -->
         <LinearLayout
@@ -42,14 +41,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/geckoGender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textColor="?android:attr/textColorSecondary"/>
+                    android:textColor="?android:attr/textColorSecondary" />
             </LinearLayout>
 
             <!-- Морфа -->
@@ -58,7 +57,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/geckoAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

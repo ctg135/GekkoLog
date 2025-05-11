@@ -12,6 +12,7 @@ import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoDiffCallback
 import salabaev.gekkolog.databinding.ItemGeckoBinding
 import java.io.File
+import salabaev.gekkolog.ui.utils.NiceDateFormatter
 
 
 
@@ -49,6 +50,8 @@ class PetListAdapter : ListAdapter<Gecko, PetListAdapter.GeckoViewHolder>(GeckoD
                     else -> ""
                 }
                 geckoMorph.text = gecko.morph ?: "Морфа не указана"
+                //TODO: тут вставить умное значение для даты рождения
+                geckoAge.text = NiceDateFormatter.getNiceAge(gecko.birthDate)
 
                 binding.root.setOnClickListener {
                     var bundle = bundleOf("geckoId" to gecko.id)

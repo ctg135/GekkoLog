@@ -12,12 +12,13 @@ object DatePickerHelper {
     fun showDatePickerDialog(
         context: Context,
         initialDate: Long? = null,
+        maxDate: Long? = System.currentTimeMillis(), // Ограничиваем будущие даты
         onDateSelected: (date: Long, formattedDate: String) -> Unit
     ) {
         val calendar = Calendar.getInstance()
         initialDate?.let { calendar.timeInMillis = it }
 
-        DatePickerDialog(
+        val datePickerDialog = DatePickerDialog(
             context,
             { _, year, month, day ->
                 val selectedCalendar = Calendar.getInstance().apply {
@@ -29,8 +30,16 @@ object DatePickerHelper {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        )
+
+        // Устанавливаем максимальную дату (сегодня)
+        maxDate?.let { datePickerDialog.datePicker.maxDate = it }
+
+        // datePickerDialog.datePicker.minDate = someMinDate
+
+        datePickerDialog.show()
     }
+
 
     private fun formatDate(date: Date): String {
         return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(date)
@@ -38,5 +47,9 @@ object DatePickerHelper {
 
     fun formatDate(timestamp: Long): String {
         return formatDate(Date(timestamp))
+    }
+
+    public fun getSmartDate() {
+
     }
 }
