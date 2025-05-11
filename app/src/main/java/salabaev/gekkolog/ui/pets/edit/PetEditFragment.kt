@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.NumberPicker
 import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.databinding.FragmentPetEditBinding
@@ -65,18 +66,28 @@ class PetEditFragment : Fragment() {
         loadGeckoData()
     }
 
+    // Начальная настройка UI
     private fun setupViews() {
+        // Выбор аватарки
         binding.geckoImage.setOnClickListener { selectImageFromGallery() }
+        // Сохранение питомца
         binding.saveButton.setOnClickListener { saveGecko() }
+        // Удаление питомца
         binding.deleteButton.setOnClickListener { alertDeletePet() }
+        // Выбор периода для кормления
+        binding.feedPeriodEdit.setOnClickListener { showFeedPeriodPicker() }
+        // Для выбора возраста
         binding.ageEdit.setOnClickListener {
             showDatePickerDialog(requireContext()) { ageText ->
                 binding.ageEdit.setText(ageText)
             }
         }
+        // Для выбора пола
         val genders = listOf(
-            Pair("M", getString(salabaev.gekkolog.R.string.male)),  // "M" - значение для базы, "Самец" - отображаемый текст
-            Pair("F", getString(salabaev.gekkolog.R.string.female))) // "F" - значение для базы, "Самка" - отображаемый текст
+            // "M" - значение для базы, "Самец" - отображаемый текст
+            Pair("M", getString(salabaev.gekkolog.R.string.male)),
+            // "F" - значение для базы, "Самка" - отображаемый текст
+            Pair("F", getString(salabaev.gekkolog.R.string.female)))
 
         val adapter = ArrayAdapter(
             requireContext(),
@@ -99,6 +110,7 @@ class PetEditFragment : Fragment() {
         }
     }
 
+    // Загрузка данных питомца из БД
     private fun loadGeckoData() {
         arguments?.getInt("geckoId")?.let { geckoId ->
             if (geckoId != 0) {
@@ -107,18 +119,21 @@ class PetEditFragment : Fragment() {
         }
     }
 
+    // Обновление UI
     private fun updateUI(gecko: Gecko) {
+        // Текстовые поля
         binding.nameEdit.setText(gecko.name)
         binding.morphEdit.setText(gecko.morph)
-        binding.feedPeriodEdit.setText(gecko.feedPeriod?.toString())
+        binding.feedPeriodEdit.setText(gecko.feedPeriod?.toString() ?: "1")
 
-        // Загрузка изображения
+        // Загрузка аватарки питомца
         gecko.photoPath?.let { path: String ->
             Glide.with(this)
                 .load(File(path))
                 .into(binding.geckoImage)
         }
 
+        // Выпадающий список для выбора пола
         val genderDropdown = binding.genderEdit as MaterialAutoCompleteTextView
         when (gecko.gender) {
             "M" -> {
@@ -132,6 +147,7 @@ class PetEditFragment : Fragment() {
         }
     }
 
+    // Функция для запроса картинки из галлереи
     private fun selectImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
@@ -139,6 +155,7 @@ class PetEditFragment : Fragment() {
         startActivityForResult(intent, REQUEST_IMAGE_PICK)
     }
 
+    // При получении изображения из галлереи
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
@@ -151,13 +168,26 @@ class PetEditFragment : Fragment() {
         }
     }
 
+
+    // Сохранение изображения во внешнюю память
+    private fun saveImageToInternalStorage(uri: Uri): File {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val file = File(requireContext().filesDir, "gecko_${System.currentTimeMillis()}.jpg")
+        FileOutputStream(file).use { output ->
+            inputStream?.copyTo(output)
+        }
+        return file
+    }
+
+    // Сохранение в БД
     private fun saveGecko() {
         val gecko = Gecko().apply {
             id = arguments?.getInt("geckoId") ?: 0
             name = binding.nameEdit.text.toString()
             morph = binding.morphEdit.text.toString()
             gender = binding.genderEdit.tag?.toString() ?: ""
-            feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull()
+            feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull() ?: 1
+            // TODO: Добавить автоматическое пересоздание напоминания кормления
             viewModel.gecko.observe(viewLifecycleOwner) { geckoViewModel ->
                 if (currentPhotoUri != null) {
                     // Если выбрано новое фото
@@ -179,6 +209,7 @@ class PetEditFragment : Fragment() {
         findNavController().popBackStack()
     }
 
+    // Подтверждение удаления
     private fun alertDeletePet() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder
@@ -196,6 +227,7 @@ class PetEditFragment : Fragment() {
         alertDialog.show()
     }
 
+    // Функция для удаления из БД
     private fun deletePet() {
         val geckoId = arguments?.getInt("geckoId") ?: 0
         if (geckoId != 0) {
@@ -206,15 +238,27 @@ class PetEditFragment : Fragment() {
         }
         findNavController().popBackStack()
     }
-    
 
-    private fun saveImageToInternalStorage(uri: Uri): File {
-        val inputStream = requireContext().contentResolver.openInputStream(uri)
-        val file = File(requireContext().filesDir, "gecko_${System.currentTimeMillis()}.jpg")
-        FileOutputStream(file).use { output ->
-            inputStream?.copyTo(output)
+    // Функция для выбора периода кормления
+    private fun showFeedPeriodPicker() {
+        val currentValue = binding.feedPeriodEdit.text.toString().toIntOrNull() ?: 1
+        val dialogView = LayoutInflater.from(requireContext()).inflate(salabaev.gekkolog.R.layout.dialog_number_picker, null)
+        val numberPicker = dialogView.findViewById<NumberPicker>(salabaev.gekkolog.R.id.numberPicker).apply {
+            minValue = 1
+            maxValue = 14
+            value = currentValue.coerceIn(1, 14)
+            wrapSelectorWheel = false
         }
-        return file
+
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Выберите период кормления (дни)")
+            setView(dialogView)
+            setPositiveButton("Oк") { _, _ ->
+                // Сохраняем выбранное значение
+                binding.feedPeriodEdit.setText(numberPicker.value.toString())
+            }
+            setNegativeButton("Отмена", null)
+        }.show()
     }
 
     override fun onDestroyView() {
