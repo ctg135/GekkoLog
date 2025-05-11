@@ -6,6 +6,7 @@
     <string name="title_info">Справка</string>
     <string name="image_gecko">Изображение вашего геккона</string>
     <string name="text_gecko_list">Список ваших питомцев</string>
+    <string name="text_add_pet">Добавить питомца</string>
     <string name="save">Сохранить</string>
     <string name="delete">Удалить</string>
     <!-- Редактирование геккона -->
