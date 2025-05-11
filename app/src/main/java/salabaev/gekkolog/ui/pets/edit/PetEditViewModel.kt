@@ -1,6 +1,5 @@
 package salabaev.gekkolog.ui.pets.edit
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,9 +14,8 @@ class PetEditViewModel (private val repository: GeckoRepository): ViewModel() {
 
     fun loadGecko(geckoId: Int) {
         viewModelScope.launch {
-            Log.d("TEST", geckoId.toString())
             viewModelScope.launch {
-                repository.getGecko(geckoId).observeForever { gecko -> // Наблюдаем за LiveData
+                repository.getGecko(geckoId).observeForever { gecko ->
                     _gecko.postValue(gecko)
                 }
             }
@@ -31,6 +29,12 @@ class PetEditViewModel (private val repository: GeckoRepository): ViewModel() {
             } else {
                 repository.updateGecko(gecko)
             }
+        }
+    }
+
+    fun deleteGecko(gecko: Gecko) {
+        viewModelScope.launch {
+            repository.deleteGecko(gecko)
         }
     }
 }

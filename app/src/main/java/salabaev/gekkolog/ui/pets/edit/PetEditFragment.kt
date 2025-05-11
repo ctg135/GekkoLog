@@ -4,13 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.databinding.FragmentPetEditBinding
@@ -21,7 +18,6 @@ import java.io.FileOutputStream
 import androidx.core.os.bundleOf
 import salabaev.gekkolog.ui.utils.DatePickerHelper.showDatePickerDialog
 import androidx.navigation.fragment.findNavController
-import salabaev.gekkolog.R
 
 class PetEditFragment : Fragment() {
 
@@ -39,15 +35,11 @@ class PetEditFragment : Fragment() {
 
     private var _binding: FragmentPetEditBinding? = null
     private val binding get() = _binding!!
-//    private val viewModel: PetEditViewModel by viewModels()
     private lateinit var viewModel: PetEditViewModel
     private var currentPhotoUri: Uri? = null
-//    private val viewModel: PetEditViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(
@@ -73,6 +65,7 @@ class PetEditFragment : Fragment() {
     private fun setupViews() {
         binding.geckoImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveGecko() }
+        binding.deleteButton.setOnClickListener { deleteGecko() }
         binding.ageEdit.setOnClickListener {
             showDatePickerDialog(requireContext()) { ageText ->
                 binding.ageEdit.setText(ageText)
@@ -127,23 +120,6 @@ class PetEditFragment : Fragment() {
         }
     }
 
-//    private fun showDatePickerDialog(requireContext: Context, param: (Any) -> Unit) {
-//        val calendar = Calendar.getInstance()
-//        DatePickerDialog(
-//            requireContext(),
-//            { _, year, month, day ->
-//                val selectedDate = Calendar.getInstance().apply {
-//                    set(year, month, day)
-//                }
-//                val ageText = calculateAge(selectedDate)
-//                binding.ageEdit.setText(ageText)
-//            },
-//            calendar.get(Calendar.YEAR),
-//            calendar.get(Calendar.MONTH),
-//            calendar.get(Calendar.DAY_OF_MONTH)
-//                .show()
-//    }
-
     private fun saveGecko() {
         val gecko = Gecko().apply {
             id = arguments?.getInt("geckoId") ?: 0
@@ -166,6 +142,18 @@ class PetEditFragment : Fragment() {
             }
         }
         viewModel.saveGecko(gecko)
+        findNavController().popBackStack()
+    }
+
+    private fun deleteGecko() {
+        val geckoId = arguments?.getInt("geckoId") ?: 0
+        if (geckoId != 0) {
+            var localGecko: Gecko
+            viewModel.gecko.observe(viewLifecycleOwner) {
+                localGecko = it!!
+                viewModel.deleteGecko(localGecko)
+            }
+        }
         findNavController().popBackStack()
     }
 

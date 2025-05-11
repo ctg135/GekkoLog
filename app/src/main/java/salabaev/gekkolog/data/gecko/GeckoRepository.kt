@@ -26,4 +26,10 @@ class GeckoRepository(private val dao: GeckoDao) {
         return dao.getGecko(geckoId)
     }
 
+    fun deleteGecko(gecko: Gecko) {
+        corotineScope.launch(Dispatchers.IO) {
+            dao.deleteGecko(gecko)
+        }
+    }
+
 }
