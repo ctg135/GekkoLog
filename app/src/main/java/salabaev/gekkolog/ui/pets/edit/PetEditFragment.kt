@@ -7,10 +7,12 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.NumberPicker
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.databinding.FragmentPetEditBinding
@@ -46,6 +48,7 @@ class PetEditFragment : Fragment() {
     private var selectedBirthDate: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
 
@@ -71,6 +74,11 @@ class PetEditFragment : Fragment() {
 
     // Начальная настройка UI
     private fun setupViews() {
+        // Панель наверху экрана
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
         // Выбор аватарки
         binding.geckoImage.setOnClickListener { selectImageFromGallery() }
         // Сохранение питомца
@@ -279,6 +287,17 @@ class PetEditFragment : Fragment() {
                 binding.birthDateEdit.setText(formattedDate)
             }
         )
+    }
+
+    // Обработка событий панели наверху экрана
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onDestroyView() {

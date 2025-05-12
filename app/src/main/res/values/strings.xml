@@ -9,6 +9,7 @@
     <string name="text_add_pet">Добавить питомца</string>
     <string name="save">Сохранить</string>
     <string name="delete">Удалить</string>
+    <string name="text_edit_pet">Редактирование питомца</string>
     <!-- Редактирование геккона -->
     <string name="tap_to_change_photo">Нажмите для изменения фото</string>
     <string name="name_gekko">Имя питомца</string>

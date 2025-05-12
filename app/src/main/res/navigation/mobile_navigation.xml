@@ -19,7 +19,10 @@
         tools:layout="@layout/fragment_pets" >
         <action
             android:id="@+id/action_navigation_pets_to_petEditFragment"
-            app:destination="@id/petEditFragment" />
+            app:destination="@id/petEditFragment"
+            app:popUpTo="@id/navigation_pets"
+            app:popUpToInclusive="false"
+            />
     </fragment>
 
     <fragment
@@ -36,5 +39,5 @@
     <fragment
         android:id="@+id/petEditFragment"
         android:name="salabaev.gekkolog.ui.pets.edit.PetEditFragment"
-        android:label="PetEditFragment" />
+        android:label="@string/text_edit_pet" />
 </navigation>

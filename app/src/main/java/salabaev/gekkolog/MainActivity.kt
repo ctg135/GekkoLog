@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         navView.setupWithNavController(navController)
-
+        setupActionBarWithNavController(navController, appBarConfiguration)
 //        print("test")
 //        Log.d("TEST", "TEST")
 //        // Example of usage
