@@ -4,19 +4,31 @@
     <string name="title_pets">Питомцы</string>
     <string name="title_journal">Журнал</string>
     <string name="title_info">Справка</string>
+    <string name="title_edit_pet">Редактирование питомца</string>
     <string name="image_gecko">Изображение вашего геккона</string>
     <string name="text_gecko_list">Список ваших питомцев</string>
     <string name="text_add_pet">Добавить питомца</string>
     <string name="save">Сохранить</string>
     <string name="delete">Удалить</string>
-    <string name="text_edit_pet">Редактирование питомца</string>
     <!-- Редактирование геккона -->
-    <string name="tap_to_change_photo">Нажмите для изменения фото</string>
-    <string name="name_gekko">Имя питомца</string>
-    <string name="age_gekko">Дата рождения</string>
-    <string name="morph_gekko">Морфа</string>
-    <string name="gender_gekko">Пол</string>
+    <string name="text_tap_to_change_photo">Нажмите для изменения фото</string>
+    <string name="pet_name">Имя питомца</string>
+    <string name="pet_age">Дата рождения</string>
+    <string name="pet_morph">Морфа</string>
+    <string name="pet_feed_period">Период кормления (дней)</string>
+    <string name="pet_gender">Пол</string>
     <string name="male">Самец</string>
     <string name="female">Самка</string>
-    <string name="feed_period_gekko">Период кормления (дней)</string>
+    <!-- Статистика питомца -->
+    <string name="text_pet_last_ate">Кормление:</string>
+    <string name="text_pet_last_shed">Линька:</string>
+    <string name="text_pet_last_weight">Вес:</string>
+    <string name="text_pet_no_stats_data">Нету данных</string>
+    <!-- Пункты меню -->
+    <string name="item_pet_reminder">Создать напоминание</string>
+    <string name="item_pet_feed">Покормить</string>
+    <string name="item_pet_shed">Прошла линька</string>
+    <string name="item_pet_weight">Взвесить</string>
+    <string name="item_pet_health">Событие о здоровье</string>
+    <string name="item_pet_other">Другое событие</string>
 </resources>

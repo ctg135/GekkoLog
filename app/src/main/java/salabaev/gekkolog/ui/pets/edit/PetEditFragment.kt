@@ -5,8 +5,11 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -110,6 +113,18 @@ class PetEditFragment : Fragment() {
             // Сохраняем выбранное значение ("M" или "F") в тег
             genderDropdown.tag = genders[position].first
         }
+
+        // Если геккон только создается, то не отображать его статистику
+        arguments?.getInt("geckoId")?.let { geckoId ->
+            if (geckoId == 0) {
+                binding.statisticsLayout.visibility = View.GONE
+            }
+        }
+
+        // Обработчики кнопок панели со статистикой
+        binding.lastAteValue.setOnClickListener { createFoodEvent() }
+        binding.lastShedValue.setOnClickListener { createShedEvent() }
+        binding.lastWeightValue.setOnClickListener { createWeightEvent() }
     }
 
     private fun observeViewModel() {
@@ -289,15 +304,76 @@ class PetEditFragment : Fragment() {
         )
     }
 
-    // Обработка событий панели наверху экрана
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        arguments?.getInt("geckoId")?.let { geckoId ->
+            if (geckoId != 0) {
+                inflater.inflate(salabaev.gekkolog.R.menu.pet_edit_menu, menu)
+            }
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    // Обработка меню наверху экрана
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
                 findNavController().popBackStack()
                 true
             }
+            salabaev.gekkolog.R.id.pet_edit_item_reminder -> {
+                createReminder()
+                true
+            }
+            salabaev.gekkolog.R.id.pet_edit_item_ate -> {
+                createFoodEvent()
+                true
+            }
+            salabaev.gekkolog.R.id.pet_edit_item_shed -> {
+                createShedEvent()
+                true
+            }
+            salabaev.gekkolog.R.id.pet_edit_item_weight -> {
+                createWeightEvent()
+                true
+            }
+            salabaev.gekkolog.R.id.pet_edit_item_health -> {
+                createHealthEvent()
+                true
+            }
+            salabaev.gekkolog.R.id.pet_edit_item_other -> {
+                createOtherEvent()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    // TODO
+    // Функции для создания событий
+    private fun createFoodEvent() {
+        Log.d("TEST", "create ate")
+    }
+
+    private fun createShedEvent() {
+        Log.d("TEST", "create shed")
+    }
+
+    private fun createWeightEvent() {
+        Log.d("TEST", "create weight")
+    }
+
+    private fun createHealthEvent() {
+        Log.d("TEST", "create health")
+    }
+
+    private fun createOtherEvent() {
+        Log.d("TEST", "create other")
+    }
+
+    // Для создания какого-либо напоминания
+    private fun createReminder() {
+        Log.d("TEST", "create reminder")
     }
 
     override fun onDestroyView() {

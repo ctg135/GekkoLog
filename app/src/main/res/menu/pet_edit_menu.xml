@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/pet_edit_item_reminder"
+        android:title="@string/item_pet_reminder"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/pet_edit_item_ate"
+        android:title="@string/item_pet_feed"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/pet_edit_item_shed"
+        android:title="@string/item_pet_shed"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/pet_edit_item_weight"
+        android:title="@string/item_pet_weight"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/pet_edit_item_health"
+        android:title="@string/item_pet_health"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/pet_edit_item_other"
+        android:title="@string/item_pet_other"
+        app:showAsAction="never"/>
+</menu>

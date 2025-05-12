@@ -39,5 +39,5 @@
     <fragment
         android:id="@+id/petEditFragment"
         android:name="salabaev.gekkolog.ui.pets.edit.PetEditFragment"
-        android:label="@string/text_edit_pet" />
+        android:label="@string/title_edit_pet" />
 </navigation>

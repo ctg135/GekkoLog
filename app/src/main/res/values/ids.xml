@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="lastWeightValue" type="id" />
+    <item name="lastWeightLabel" type="id" />
+    <item name="lastShedValue" type="id" />
+    <item name="lastShedLabel" type="id" />
+    <item name="lastAteValue" type="id" />
+</resources>
