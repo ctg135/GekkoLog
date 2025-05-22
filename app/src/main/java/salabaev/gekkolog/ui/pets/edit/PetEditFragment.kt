@@ -24,9 +24,11 @@ import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import java.io.FileOutputStream
 import androidx.core.os.bundleOf
+import androidx.navigation.Navigation
 import salabaev.gekkolog.ui.utils.DatePickerHelper
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import salabaev.gekkolog.R
 
 class PetEditFragment : Fragment() {
 
@@ -352,23 +354,43 @@ class PetEditFragment : Fragment() {
     // TODO
     // Функции для создания событий
     private fun createFoodEvent() {
-        Log.d("TEST", "create ate")
+        val bundle = bundleOf(
+            "eventType" to "FEED",
+            "eventId" to 0)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     private fun createShedEvent() {
-        Log.d("TEST", "create shed")
+        val bundle = bundleOf(
+            "eventType" to "SHED",
+            "eventId" to 0)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     private fun createWeightEvent() {
-        Log.d("TEST", "create weight")
+        val bundle = bundleOf(
+            "eventType" to "WEIGHT",
+            "eventId" to 0)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     private fun createHealthEvent() {
-        Log.d("TEST", "create health")
+        val bundle = bundleOf(
+            "eventType" to "HEALTH",
+            "eventId" to 0)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     private fun createOtherEvent() {
-        Log.d("TEST", "create other")
+        val bundle = bundleOf(
+            "eventType" to "OTHER",
+            "eventId" to 0)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     // Для создания какого-либо напоминания

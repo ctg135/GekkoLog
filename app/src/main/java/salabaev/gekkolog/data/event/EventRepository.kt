@@ -1,5 +1,6 @@
 package salabaev.gekkolog.data.event
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -7,10 +8,8 @@ import kotlinx.coroutines.launch
 class EventRepository(private val dao: EventDao) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    fun getEvent(eventId: Int){
-        coroutineScope.launch(Dispatchers.IO) {
-            dao.getEvent(eventId)
-        }
+    fun getEvent(eventId: Int): LiveData<Event> {
+        return getEvent(eventId)
     }
 
     fun addEvent(event: Event){
