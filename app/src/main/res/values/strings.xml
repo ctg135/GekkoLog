@@ -31,4 +31,6 @@
     <string name="item_pet_weight">Взвесить</string>
     <string name="item_pet_health">Событие о здоровье</string>
     <string name="item_pet_other">Другое событие</string>
+    <!-- Редактирование событий -->
+    <string name="text_event_edit">Редактирование события</string>
 </resources>
