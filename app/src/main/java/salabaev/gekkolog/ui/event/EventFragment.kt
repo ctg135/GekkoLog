@@ -71,27 +71,26 @@ class EventFragment : Fragment() {
         // Настройка UI
 
         // По входным данным отображет одну из 5 форм
+        binding.layoutFeed.visibility = View.GONE
+        binding.layoutShed.visibility = View.GONE
+        binding.layoutWeight.visibility = View.GONE
+        binding.layoutHealthOther.visibility = View.GONE
         arguments?.getString("eventType")?.let { eventType ->
             when (eventType) {
                 "FEED" -> {
-                    // Форма кормления
-                    Log.d("TEST", "База кормит")
+                    binding.layoutFeed.visibility = View.VISIBLE
                 }
                 "SHED" -> {
-                    // Форма линьки
-                    Log.d("TEST", "База линяет")
+                    binding.layoutShed.visibility = View.VISIBLE
                 }
                 "WEIGHT" -> {
-                    // Форма взвешивания
-                    Log.d("TEST", "База весит")
+                    binding.layoutWeight.visibility = View.VISIBLE
                 }
                 "HEALTH" -> {
-                     // Форма о здоровье
-                    Log.d("TEST", "База лечит")
+                    binding.layoutHealthOther.visibility = View.VISIBLE
                 }
                 "OTHER" -> {
-                    // Форма другое
-                    Log.d("TEST", "База дружит")
+                    binding.layoutHealthOther.visibility = View.VISIBLE
                 }
                 else -> {}
             }
@@ -100,7 +99,22 @@ class EventFragment : Fragment() {
 
     // Обновление UI
     private fun updateUI(event: Event) {
-        // TODO Установка новых значений полей при обновлении модели
+        // Установка необходимых полей
+        arguments?.getString("eventType")?.let { eventType ->
+            when (eventType) {
+                "FEED" -> {
+                }
+                "SHED" -> {
+                }
+                "WEIGHT" -> {
+                }
+                "HEALTH" -> {
+                }
+                "OTHER" -> {
+                }
+                else -> {}
+            }
+        }
     }
 
 

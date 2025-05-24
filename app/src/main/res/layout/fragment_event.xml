@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
@@ -12,6 +13,162 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/text_event_edit"
         android:orientation="vertical">
+
+        <!-- Общие элементы -->
+        <!-- Имя геккона -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/text_event_pet">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/eventPet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false"
+                android:inputType="none"
+                android:minHeight="48dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Дата и время события -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/text_event_date">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/eventDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="false" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Форма события кормления -->
+        <LinearLayout
+            android:id="@+id/layoutFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioCalcium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_event_feed_calcium" />
+
+                <RadioButton
+                    android:id="@+id/radioVitamin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_event_feed_vitamin" />
+
+            </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/checkDeny"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_event_feed_deny" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_event_feed_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eventFeedDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- Форма события линьки -->
+        <LinearLayout
+            android:id="@+id/layoutShed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/eventShedSuccess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_event_shed_success" />
+        </LinearLayout>
+
+        <!-- Форма события взвешивания -->
+        <LinearLayout
+            android:id="@+id/layoutWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/eventWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/text_event_weight"
+                android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <!-- Форма события здоровья -->
+        <LinearLayout
+            android:id="@+id/layoutHealthOther"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_event_description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/eventDescription"
+                    android:layout_marginTop="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_gallery_add_photo" />
+        </LinearLayout>
+
+        <!-- Форма другого события -->
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/save" />
+
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="20dp"
+            android:text="@string/delete" />
 
     </LinearLayout>
 

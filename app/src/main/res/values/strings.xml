@@ -33,4 +33,15 @@
     <string name="item_pet_other">Другое событие</string>
     <!-- Редактирование событий -->
     <string name="text_event_edit">Редактирование события</string>
+    <string name="text_event_pet">Питомец</string>
+    <string name="text_event_date">Дата</string>
+    <!-- Форма кормления -->
+    <string name="text_event_feed_calcium">Кальций</string>
+    <string name="text_event_feed_vitamin">Витамины</string>
+    <string name="text_event_feed_deny">Отказался от приема пищи</string>
+    <string name="text_event_feed_description">Описание према пищи</string>
+    <string name="text_event_weight">Вес</string>
+    <string name="text_event_shed_success">Справился самостоятельно</string>
+    <string name="text_event_description">Описание</string>
+
 </resources>
