@@ -76,7 +76,7 @@
             </RadioGroup>
 
             <CheckBox
-                android:id="@+id/checkDeny"
+                android:id="@+id/checkFeedDeny"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_event_feed_deny" />
@@ -144,7 +144,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/eventImage"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:layout_gravity="center"

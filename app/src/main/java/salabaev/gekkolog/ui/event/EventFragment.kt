@@ -1,26 +1,36 @@
 package salabaev.gekkolog.ui.event
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventRepository
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import salabaev.gekkolog.databinding.FragmentEventBinding
+import java.io.File
+import java.io.FileOutputStream
+import kotlin.enums.enumEntries
 
 class EventFragment : Fragment() {
 
     companion object {
+        private const val REQUEST_IMAGE_PICK = 1001
         fun newInstance() = EventFragment()
     }
 
     private var _binding: FragmentEventBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: EventViewModel
+    private var currentPhotoUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -95,27 +105,181 @@ class EventFragment : Fragment() {
                 else -> {}
             }
         }
+
+        binding.eventImage.setOnClickListener { selectImageFromGallery() }
+        binding.saveButton.setOnClickListener { saveEvent() }
+        binding.deleteButton.setOnClickListener { alertDeleteEvent() }
     }
 
     // Обновление UI
     private fun updateUI(event: Event) {
+        // TODO добавить настройку общих полей
         // Установка необходимых полей
         arguments?.getString("eventType")?.let { eventType ->
             when (eventType) {
                 "FEED" -> {
+                    when (event.feedType) {
+                        "CA" -> { binding.radioCalcium.isChecked = true }
+                        "VIT" -> { binding.radioVitamin.isChecked = true }
+                    }
+                    event.feedSucces?.let { binding.checkFeedDeny.isChecked = it }
+                    event.description?.let { binding.eventFeedDescription.setText(it) }
                 }
                 "SHED" -> {
+                    event.shedSuccess?.let { binding.eventShedSuccess.isChecked = it }
                 }
                 "WEIGHT" -> {
+                    event.weight?.let { binding.eventWeight.setText(it.toString()) }
                 }
                 "HEALTH" -> {
+                    event.description?.let { binding.eventDescription.setText(it) }
+                    event.photoPath?.let {
+                        Glide.with(this)
+                            .load(File(it))
+                            .into(binding.eventImage)
+                    }
                 }
                 "OTHER" -> {
+                    event.description?.let { binding.eventDescription.setText(it) }
+                    event.photoPath?.let {
+                        Glide.with(this)
+                            .load(File(it))
+                            .into(binding.eventImage)
+                    }
                 }
                 else -> {}
             }
         }
     }
 
+    private fun saveEvent() {
+        val event = Event().apply {
+            id = arguments?.getInt("eventId") ?: 0
+            // TODO: добавить значение geckoId
+            arguments?.getString("eventType")?.let { eventType ->
+                when (eventType) {
+                    "FEED" -> {
+                        type = "FEED"
+                        if (binding.radioCalcium.isChecked){
+                            feedType = "CA"
+                        } else if (binding.radioVitamin.isChecked) {
+                            feedType = "VIT"
+                        }
+                        feedSucces = binding.checkFeedDeny.isChecked
+                        description = binding.eventFeedDescription.text.toString()
+                    }
+                    "SHED" -> {
+                        type = "SHED"
+                        shedSuccess = binding.eventShedSuccess.isChecked
+                    }
+                    "WEIGHT" -> {
+                        type = "WEIGHT"
+                        weight = binding.eventWeight.text.toString().toFloatOrNull()
+                    }
+                    "HEALTH" -> {
+                        type = "HEALTH"
+                        description = binding.eventDescription.text.toString()
+                        viewModel.event.observe(viewLifecycleOwner) { eventViewModel ->
+                            if (currentPhotoUri != null) {
+                                // Если выбрано новое фото
+                                photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                            } else if (eventViewModel?.photoPath != null) {
+                                // Если фото не изменлось
+                                photoPath = eventViewModel.photoPath
+                            } else {
+                                // Если фото не было выбрано
+                                photoPath = null
+                            }
+                        }
+                        // При создании события
+                        if (id == 0 && currentPhotoUri != null) {
+                            photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                        }
+                    }
+                    "OTHER" -> {
+                        type = "OTHER"
+                        description = binding.eventDescription.text.toString()
+                        viewModel.event.observe(viewLifecycleOwner) { eventViewModel ->
+                            if (currentPhotoUri != null) {
+                                // Если выбрано новое фото
+                                photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                            } else if (eventViewModel?.photoPath != null) {
+                                // Если фото не изменлось
+                                photoPath = eventViewModel.photoPath
+                            } else {
+                                // Если фото не было выбрано
+                                photoPath = null
+                            }
+                        }
+                        // При создании события
+                        if (id == 0 && currentPhotoUri != null) {
+                            photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                        }
+                        // При создании события
+                        if (id == 0 && currentPhotoUri != null) {
+                            photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                        }
+                    }
+                    else -> {}
+                }
+            }
+        }
+        viewModel.saveEvent(event)
+        findNavController().popBackStack()
+    }
 
+    // Функция сохранения загруженного файла в хранилище
+    private fun saveImageToInternalStorage(uri: Uri): File {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val file = File(requireContext().filesDir, "event_${System.currentTimeMillis()}.jpg")
+        FileOutputStream(file).use { output ->
+            inputStream?.copyTo(output)
+        }
+        return file
+    }
+
+    // Функция для запроса картинки из галлереи
+    private fun selectImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }
+        startActivityForResult(intent, REQUEST_IMAGE_PICK)
+    }
+
+    // При получении изображения из галлереи
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                currentPhotoUri = uri
+                Glide.with(this)
+                    .load(uri)
+                    .into(binding.eventImage)
+            }
+        }
+    }
+
+    // Удаление из БД записи
+    private fun deleteEvent() {
+        val eventId = arguments?.getInt("eventId") ?: 0
+        viewModel.deleteEvent(eventId)
+    }
+
+    // Предупреждение перед удалением записи
+    private fun alertDeleteEvent() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder
+            .setMessage("Вы уверены?")
+            .setTitle("Удаление записи")
+            .setCancelable(true)
+            .setPositiveButton("Да"){ _, _ ->
+                deleteEvent()
+            }
+            .setNegativeButton("Нет"){ dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
 }

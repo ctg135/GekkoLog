@@ -23,5 +23,23 @@ class EventViewModel (private val repository: EventRepository,
         }
     }
 
+    fun saveEvent(event: Event) {
+        viewModelScope.launch {
+            if (event.id == 0) {
+                repository.addEvent(event)
+            } else {
+                repository.updateEvent(event)
+            }
+        }
+    }
+
+    fun deleteEvent(eventId: Int) {
+        viewModelScope.launch {
+            if (eventId != 0) {
+                repository.deleteEvent(eventId)
+            }
+        }
+    }
+
 
 }

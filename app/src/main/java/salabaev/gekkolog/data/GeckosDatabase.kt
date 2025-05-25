@@ -11,7 +11,7 @@ import salabaev.gekkolog.data.gecko.GeckoDao
 
 @Database(
     entities = [Gecko::class, Event::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class GeckosDatabase: RoomDatabase() {
