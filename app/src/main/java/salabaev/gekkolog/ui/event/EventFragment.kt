@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventRepository
+import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import salabaev.gekkolog.databinding.FragmentEventBinding
 import salabaev.gekkolog.ui.utils.DatePickerHelper
@@ -34,6 +36,8 @@ class EventFragment : Fragment() {
     private lateinit var viewModel: EventViewModel
     private var currentPhotoUri: Uri? = null
     private var currentDateEvent: Long? = null
+    private lateinit var geckoList: LiveData<List<Gecko>>
+    private var selectedGeckoId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -57,6 +61,8 @@ class EventFragment : Fragment() {
             EventRepository(daoEvents),
             GeckoRepository(daoGeckos)
         )
+        // Получаем список гекконов
+        geckoList = viewModel.geckoRepository.geckoList ?: daoGeckos.getGeckos()
 
         observeViewModel()
         loadData()
@@ -65,6 +71,8 @@ class EventFragment : Fragment() {
 
     // Загрузка данных события из БД
     private fun loadData() {
+        // Получаем geckoId из аргументов
+        selectedGeckoId = arguments?.getInt("geckoId")
         // Если существующее событие, то подгружаем из памяти
         arguments?.getInt("eventId")?.let { eventId ->
             if (eventId != 0) {
@@ -74,6 +82,15 @@ class EventFragment : Fragment() {
                 viewModel.event.value?.date = currentDate
                 currentDateEvent = currentDate
                 binding.eventDate.setText(DatePickerHelper.formatDateTime(currentDate))
+
+                // Устанавливаем выбранного геккона для нового события
+                selectedGeckoId?.let { geckoId ->
+                    viewModel.geckoRepository.getGecko(geckoId).observe(viewLifecycleOwner) { gecko ->
+                        gecko?.let {
+                            binding.eventPet.setText(it.name, false)
+                        }
+                    }
+                }
             }
         }
     }
@@ -119,11 +136,51 @@ class EventFragment : Fragment() {
         binding.saveButton.setOnClickListener { saveEvent() }
         binding.deleteButton.setOnClickListener { alertDeleteEvent() }
         binding.eventDate.setOnClickListener { showBirthDatePicker() }
+        // Выпадающий список питомцев
+        geckoList.observe(viewLifecycleOwner) { geckos ->
+            val adapter = GeckoDropdownAdapter(
+                requireContext(),
+                geckos,
+                binding.eventPet
+            )
+            binding.eventPet.setAdapter(adapter)
+
+            // Устанавливаем обработчик выбора
+            viewModel.geckoRepository.geckoList?.observe(viewLifecycleOwner) { geckos ->
+                val adapter = GeckoDropdownAdapter(
+                    requireContext(),
+                    geckos,
+                    binding.eventPet
+                )
+                binding.eventPet.setAdapter(adapter)
+
+                // Устанавливаем обработчик выбора
+                binding.eventPet.setOnItemClickListener { _, _, position, _ ->
+                    selectedGeckoId = geckos[position].id
+                    binding.eventPet.setText(geckos[position].name, false)
+                }
+
+                // Устанавливаем текущее значение, если geckoId передан или есть в событии
+                selectedGeckoId?.let { geckoId ->
+                    geckos.find { it.id == geckoId }?.let { gecko ->
+                        binding.eventPet.setText(gecko.name, false)
+                    }
+                }
+            }
+        }
     }
 
     // Обновление UI
     private fun updateUI(event: Event) {
-        // TODO добавить настройку общих полей
+        // Установка имени геккона
+        event.geckoId?.let { geckoId ->
+            viewModel.geckoRepository.getGecko(geckoId).observe(viewLifecycleOwner) { gecko ->
+                gecko?.let {
+                    binding.eventPet.setText(it.name ?: "Без имени", false)
+                    selectedGeckoId = geckoId
+                }
+            }
+        }
         binding.eventDate.setText(
             DatePickerHelper.formatDateTime(
                 event.date!!))
@@ -169,7 +226,7 @@ class EventFragment : Fragment() {
         val event = Event().apply {
             id = arguments?.getInt("eventId") ?: 0
             date = currentDateEvent ?: viewModel.event.value?.date
-            // TODO: добавить значение geckoId
+            geckoId = selectedGeckoId ?: viewModel.event.value?.geckoId
             arguments?.getString("eventType")?.let { eventType ->
                 when (eventType) {
                     "FEED" -> {

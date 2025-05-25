@@ -356,15 +356,18 @@ class PetEditFragment : Fragment() {
     private fun createFoodEvent() {
         val bundle = bundleOf(
             "eventType" to "FEED",
-            "eventId" to 0)
+            "eventId" to 0,
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0))
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
 
     private fun createShedEvent() {
+        var geckoId = arguments?.getInt("geckoId") ?: 0
         val bundle = bundleOf(
             "eventType" to "SHED",
-            "eventId" to 0)
+            "eventId" to 0,
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0))
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
@@ -372,7 +375,8 @@ class PetEditFragment : Fragment() {
     private fun createWeightEvent() {
         val bundle = bundleOf(
             "eventType" to "WEIGHT",
-            "eventId" to 0)
+            "eventId" to 0,
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0))
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
@@ -380,7 +384,8 @@ class PetEditFragment : Fragment() {
     private fun createHealthEvent() {
         val bundle = bundleOf(
             "eventType" to "HEALTH",
-            "eventId" to 0)
+            "eventId" to 0,
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0))
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }
@@ -388,7 +393,8 @@ class PetEditFragment : Fragment() {
     private fun createOtherEvent() {
         val bundle = bundleOf(
             "eventType" to "OTHER",
-            "eventId" to 0)
+            "eventId" to 0,
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0))
         Navigation.findNavController(binding.root)
             .navigate(R.id.action_petEditFragment_to_eventFragment, bundle)
     }

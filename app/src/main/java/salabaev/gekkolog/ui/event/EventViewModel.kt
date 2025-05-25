@@ -11,7 +11,7 @@ import salabaev.gekkolog.data.event.EventRepository
 import salabaev.gekkolog.data.gecko.GeckoRepository
 
 class EventViewModel (private val repository: EventRepository,
-                      private val geckoRepository: GeckoRepository) : ViewModel() {
+                      val geckoRepository: GeckoRepository) : ViewModel() {
     private val _event = MutableLiveData<Event?>()
     val event: LiveData<Event?> = _event
 
