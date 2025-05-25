@@ -16,8 +16,10 @@ import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventRepository
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import salabaev.gekkolog.databinding.FragmentEventBinding
+import salabaev.gekkolog.ui.utils.DatePickerHelper
 import java.io.File
 import java.io.FileOutputStream
+import java.util.Calendar
 import kotlin.enums.enumEntries
 
 class EventFragment : Fragment() {
@@ -31,6 +33,7 @@ class EventFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: EventViewModel
     private var currentPhotoUri: Uri? = null
+    private var currentDateEvent: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -62,9 +65,15 @@ class EventFragment : Fragment() {
 
     // Загрузка данных события из БД
     private fun loadData() {
+        // Если существующее событие, то подгружаем из памяти
         arguments?.getInt("eventId")?.let { eventId ->
             if (eventId != 0) {
                 viewModel.loadEvent(eventId)
+            } else {
+                val currentDate = Calendar.getInstance().timeInMillis
+                viewModel.event.value?.date = currentDate
+                currentDateEvent = currentDate
+                binding.eventDate.setText(DatePickerHelper.formatDateTime(currentDate))
             }
         }
     }
@@ -105,15 +114,19 @@ class EventFragment : Fragment() {
                 else -> {}
             }
         }
-
+        // Настройка обработчиков
         binding.eventImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveEvent() }
         binding.deleteButton.setOnClickListener { alertDeleteEvent() }
+        binding.eventDate.setOnClickListener { showBirthDatePicker() }
     }
 
     // Обновление UI
     private fun updateUI(event: Event) {
         // TODO добавить настройку общих полей
+        binding.eventDate.setText(
+            DatePickerHelper.formatDateTime(
+                event.date!!))
         // Установка необходимых полей
         arguments?.getString("eventType")?.let { eventType ->
             when (eventType) {
@@ -155,6 +168,7 @@ class EventFragment : Fragment() {
     private fun saveEvent() {
         val event = Event().apply {
             id = arguments?.getInt("eventId") ?: 0
+            date = currentDateEvent ?: viewModel.event.value?.date
             // TODO: добавить значение geckoId
             arguments?.getString("eventType")?.let { eventType ->
                 when (eventType) {
@@ -281,5 +295,17 @@ class EventFragment : Fragment() {
 
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
+    }
+
+    // Функция для отображения выбора даты
+    private fun showBirthDatePicker() {
+        DatePickerHelper.showDateTimePickerDialog(
+            requireContext(),
+            initialDate = currentDateEvent ?: viewModel.event.value?.date,
+            onDateTimeSelected = { dateMillis, formattedDate ->
+                currentDateEvent = dateMillis
+                binding.eventDate.setText(formattedDate)
+            }
+        )
     }
 }
