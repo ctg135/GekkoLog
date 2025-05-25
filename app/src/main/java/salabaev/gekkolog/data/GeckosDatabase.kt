@@ -8,15 +8,18 @@ import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventDao
 import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoDao
+import salabaev.gekkolog.data.reminder.Reminder
+import salabaev.gekkolog.data.reminder.ReminderDao
 
 @Database(
-    entities = [Gecko::class, Event::class],
-    version = 4,
+    entities = [Gecko::class, Event::class, Reminder::class],
+    version = 5,
     exportSchema = false
 )
 abstract class GeckosDatabase: RoomDatabase() {
     abstract fun GeckoDao(): GeckoDao
     abstract fun EventDao(): EventDao
+    abstract fun ReminderDao(): ReminderDao
 
     companion object {
         private var INSTANCE: GeckosDatabase? = null

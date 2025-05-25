@@ -9,7 +9,7 @@ class EventRepository(private val dao: EventDao) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun getEvent(eventId: Int): LiveData<Event> {
-        return getEvent(eventId)
+        return dao.getEvent(eventId)
     }
 
     fun addEvent(event: Event){
