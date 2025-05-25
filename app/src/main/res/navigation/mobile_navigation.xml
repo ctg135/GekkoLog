@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_navigation_home_to_eventFragment"
             app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_reminderFragment"
+            app:destination="@id/reminderFragment" />
     </fragment>
 
     <fragment
@@ -37,6 +40,9 @@
         <action
             android:id="@+id/action_navigation_journal_to_eventFragment"
             app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_navigation_journal_to_reminderFragment"
+            app:destination="@id/reminderFragment" />
     </fragment>
 
     <fragment
@@ -51,10 +57,18 @@
         <action
             android:id="@+id/action_petEditFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_petEditFragment_to_reminderFragment"
+            app:destination="@id/reminderFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventFragment"
         android:name="salabaev.gekkolog.ui.event.EventFragment"
         android:label="fragment_event"
         tools:layout="@layout/fragment_event" />
+    <fragment
+        android:id="@+id/reminderFragment"
+        android:name="salabaev.gekkolog.ui.reminder.ReminderFragment"
+        android:label="fragment_reminder"
+        tools:layout="@layout/fragment_reminder" />
 </navigation>
