@@ -22,7 +22,6 @@ import salabaev.gekkolog.ui.utils.DatePickerHelper
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Calendar
-import kotlin.enums.enumEntries
 
 class EventFragment : Fragment() {
 
@@ -135,7 +134,7 @@ class EventFragment : Fragment() {
         binding.eventImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveEvent() }
         binding.deleteButton.setOnClickListener { alertDeleteEvent() }
-        binding.eventDate.setOnClickListener { showBirthDatePicker() }
+        binding.eventDate.setOnClickListener { showEventDatePicker() }
         // Выпадающий список питомцев
         geckoList.observe(viewLifecycleOwner) { geckos ->
             val adapter = GeckoDropdownAdapter(
@@ -355,7 +354,7 @@ class EventFragment : Fragment() {
     }
 
     // Функция для отображения выбора даты
-    private fun showBirthDatePicker() {
+    private fun showEventDatePicker() {
         DatePickerHelper.showDateTimePickerDialog(
             requireContext(),
             initialDate = currentDateEvent ?: viewModel.event.value?.date,

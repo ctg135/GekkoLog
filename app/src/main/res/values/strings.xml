@@ -46,4 +46,6 @@
     <string name="text_reminder_type">Тип</string>
     <string name="text_reminder_description">Текст для напоминания</string>
     <string name="text_reminder_done">Выполнено</string>
+    <string name="title_event_edit">Запись в журнал</string>
+    <string name="title_reminder_title">Напоминание</string>
 </resources>

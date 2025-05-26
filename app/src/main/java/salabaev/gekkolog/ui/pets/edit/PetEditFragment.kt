@@ -402,10 +402,11 @@ class PetEditFragment : Fragment() {
     // Для создания какого-либо напоминания
     private fun createReminder() {
         val bundle = bundleOf(
-            "geckoId" to (arguments?.getInt("geckoId") ?: 0)
+            "geckoId" to (arguments?.getInt("geckoId") ?: 0),
+            "reminderType" to "OTHER"
         )
         Navigation.findNavController(binding.root)
-            .navigate(R.id.action_petEditFragment_to_reminderFragment)
+            .navigate(R.id.action_petEditFragment_to_reminderFragment, bundle)
     }
 
     override fun onDestroyView() {

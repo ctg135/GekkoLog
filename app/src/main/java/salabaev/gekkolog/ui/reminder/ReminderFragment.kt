@@ -1,12 +1,25 @@
 package salabaev.gekkolog.ui.reminder
 
-import androidx.fragment.app.viewModels
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.navigation.fragment.findNavController
 import salabaev.gekkolog.R
+import salabaev.gekkolog.data.GeckosDatabase
+import salabaev.gekkolog.data.gecko.Gecko
+import salabaev.gekkolog.data.gecko.GeckoRepository
+import salabaev.gekkolog.data.reminder.Reminder
+import salabaev.gekkolog.data.reminder.ReminderRepository
+import salabaev.gekkolog.databinding.FragmentEventBinding
+import salabaev.gekkolog.databinding.FragmentReminderBinding
+import salabaev.gekkolog.ui.event.GeckoDropdownAdapter
+import salabaev.gekkolog.ui.utils.DatePickerHelper
+import java.util.Calendar
 
 class ReminderFragment : Fragment() {
 
@@ -14,18 +27,190 @@ class ReminderFragment : Fragment() {
         fun newInstance() = ReminderFragment()
     }
 
-    private val viewModel: ReminderViewModel by viewModels()
+    private var _binding: FragmentReminderBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewModel: ReminderViewModel
+    private var currentDateReminder: Long? = null
+    private var selectedGeckoId: Int? = null
+    private lateinit var geckoList: LiveData<List<Gecko>>
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_reminder, container, false)
+        _binding = FragmentReminderBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val daoReminder = GeckosDatabase.getInstance(requireContext()).ReminderDao()
+        val daoGeckos = GeckosDatabase.getInstance(requireContext()).GeckoDao()
+        viewModel = ReminderViewModel(
+            ReminderRepository(daoReminder),
+            GeckoRepository(daoGeckos)
+        )
+        geckoList = viewModel.geckoRepository.geckoList ?: daoGeckos.getGeckos()
+
+        observeViewModel()
+        loadData()
+        setupViews()
+    }
+
+    // Функция для привязки к моделти
+    private fun observeViewModel() {
+        viewModel.reminder.observe(viewLifecycleOwner) { reminder ->
+            reminder?.let { updateUI(it) }
+        }
+    }
+
+    // Функция для загркзки данных из БД
+    private fun loadData() {
+        selectedGeckoId = arguments?.getInt("geckoId")
+
+        arguments?.getInt("reminderId")?.let { reminderId ->
+            if (reminderId != 0) {
+                viewModel.loadReminder(reminderId)
+            } else {
+
+                // Устанавливаем выбранного геккона для нового события
+                selectedGeckoId?.let { geckoId ->
+                    viewModel.geckoRepository.getGecko(geckoId).observe(viewLifecycleOwner) { gecko ->
+                        gecko?.let {
+                            binding.reminderPet.setText(it.name, false)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Установка параметров view
+    private fun setupViews() {
+        binding.doneButton.setOnClickListener { doneReminder() }
+        binding.saveButton.setOnClickListener { alertSaveReminder() }
+        binding.deleteButton.setOnClickListener { alertDeleteReminder() }
+        binding.reminderDate.setOnClickListener { showReminderDatePicker() }
+        // TODO добавить тип события
+
+        geckoList.observe(viewLifecycleOwner) { geckos ->
+            val adapter = GeckoDropdownAdapter(
+                requireContext(),
+                geckos,
+                binding.reminderPet
+            )
+            binding.reminderPet.setAdapter(adapter)
+
+            // Устанавливаем обработчик выбора
+            viewModel.geckoRepository.geckoList?.observe(viewLifecycleOwner) { geckos ->
+                val adapter = GeckoDropdownAdapter(
+                    requireContext(),
+                    geckos,
+                    binding.reminderPet
+                )
+                binding.reminderPet.setAdapter(adapter)
+
+                // Устанавливаем обработчик выбора
+                binding.reminderPet.setOnItemClickListener { _, _, position, _ ->
+                    selectedGeckoId = geckos[position].id
+                    binding.reminderPet.setText(geckos[position].name, false)
+                }
+
+                // Устанавливаем текущее значение, если geckoId передан или есть в событии
+                selectedGeckoId?.let { geckoId ->
+                    geckos.find { it.id == geckoId }?.let { gecko ->
+                        binding.reminderPet.setText(gecko.name, false)
+                    }
+                }
+            }
+        }
+    }
+
+    // Обновление UI
+    private fun updateUI(reminder: Reminder) {
+
+        binding.remainderDescription.setText(reminder.description)
+
+        reminder.geckoId?.let { geckoId ->
+            viewModel.geckoRepository.getGecko(geckoId).observe(viewLifecycleOwner) { gecko ->
+                gecko?.let {
+                    binding.reminderPet.setText(it.name ?: "Без имени", false)
+                    selectedGeckoId = geckoId
+                }
+            }
+        }
+
+        binding.reminderDate.setText(
+            DatePickerHelper.formatDateTime(
+                reminder.date!!))
+
+        // TODO добавить тип события
+
+    }
+
+    // TODO Функция для создания нового события на основании напоминания
+    private fun doneReminder() {
+        // 1. Перейти на страничку события
+        // 2. При успешном сохранении закрыть уведомление
+        // 3. При необходимости пересоздать новое уведомление
+    }
+
+    private fun saveReminder() {
+        val reminder = Reminder().apply {
+            //TODO добавить тип события
+            id = arguments?.getInt("reminderId") ?: 0
+            description = binding.remainderDescription.text.toString()
+            date = currentDateReminder ?: viewModel.reminder.value?.date
+            geckoId = selectedGeckoId ?: viewModel.reminder.value?.geckoId
+        }
+
+        viewModel.saveReminder(reminder)
+        findNavController().popBackStack()
+    }
+
+    private fun alertSaveReminder() {
+        // TODO добавить проверку на пустую дату
+        saveReminder()
+    }
+
+    private fun deleteReminder() {
+        val reminderId = arguments?.getInt("reminderId") ?: 0
+        viewModel.deleteReminder(reminderId)
+    }
+
+    private fun alertDeleteReminder() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(context)
+        builder
+            .setMessage("Вы уверены?")
+            .setTitle("Удаление напоминания")
+            .setCancelable(true)
+            .setPositiveButton("Да"){ _, _ ->
+                deleteReminder()
+            }
+            .setNegativeButton("Нет"){ dialog, _ ->
+                dialog.cancel()
+            }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    // Функция для отображения выбора даты
+    private fun showReminderDatePicker() {
+        DatePickerHelper.showDateTimePickerDialog(
+            requireContext(),
+            initialDate = currentDateReminder ?: viewModel.reminder.value?.date,
+            onDateTimeSelected = { dateMillis, formattedDate ->
+                currentDateReminder = dateMillis
+                binding.reminderDate.setText(formattedDate)
+            }
+        )
     }
 }

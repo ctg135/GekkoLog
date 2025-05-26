@@ -64,11 +64,11 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="salabaev.gekkolog.ui.event.EventFragment"
-        android:label="fragment_event"
+        android:label="@string/title_event_edit"
         tools:layout="@layout/fragment_event" />
     <fragment
         android:id="@+id/reminderFragment"
         android:name="salabaev.gekkolog.ui.reminder.ReminderFragment"
-        android:label="fragment_reminder"
+        android:label="@string/title_reminder_title"
         tools:layout="@layout/fragment_reminder" />
 </navigation>
