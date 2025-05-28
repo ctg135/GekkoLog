@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import salabaev.gekkolog.R
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.data.gecko.Gecko
@@ -74,7 +77,7 @@ class ReminderFragment : Fragment() {
     // Функция для загркзки данных из БД
     private fun loadData() {
         selectedGeckoId = arguments?.getInt("geckoId")
-
+        val reminderType = arguments?.getString("reminderType") ?: ""
         arguments?.getInt("reminderId")?.let { reminderId ->
             if (reminderId != 0) {
                 viewModel.loadReminder(reminderId)
@@ -88,6 +91,22 @@ class ReminderFragment : Fragment() {
                         }
                     }
                 }
+                // Первоначальная установка типа
+                val typeDropdown = binding.reminderType
+                when (reminderType) {
+                    "FEED" -> {
+                        typeDropdown.setText("Кормление", false)
+                        typeDropdown.tag = "FEED"
+                    }
+                    "OTHER" -> {
+                        typeDropdown.setText("Другое", false)
+                        typeDropdown.tag = "OTHER"
+                    }
+                    "HEALTH" -> {
+                        typeDropdown.setText("Здоровье", false)
+                        typeDropdown.tag = "HEALTH"
+                    }
+                }
             }
         }
     }
@@ -98,7 +117,23 @@ class ReminderFragment : Fragment() {
         binding.saveButton.setOnClickListener { alertSaveReminder() }
         binding.deleteButton.setOnClickListener { alertDeleteReminder() }
         binding.reminderDate.setOnClickListener { showReminderDatePicker() }
-        // TODO добавить тип события
+        val types = listOf(
+            Pair("FEED", "Кормление"),
+            Pair("OTHER", "Другое"),
+            Pair("HEALTH", "Кормление")
+        )
+
+        val adapterType = ArrayAdapter(
+            requireContext(),
+            R.layout.item_dropdown_menu_1line,
+            types.map { it.second }
+        )
+
+        val typeDropdown = binding.reminderType
+        typeDropdown.setAdapter(adapterType)
+        typeDropdown.setOnItemClickListener { _, _, position, _ ->
+            typeDropdown.tag = types[position].first
+        }
 
         geckoList.observe(viewLifecycleOwner) { geckos ->
             val adapter = GeckoDropdownAdapter(
@@ -151,7 +186,22 @@ class ReminderFragment : Fragment() {
             DatePickerHelper.formatDateTime(
                 reminder.date!!))
 
-        // TODO добавить тип события
+        // Обновление типа события
+        val typeDropdown = binding.reminderType as MaterialAutoCompleteTextView
+        when (reminder.type) {
+            "FEED" -> {
+                typeDropdown.setText("Кормление", false)
+                typeDropdown.tag = "FEED"
+            }
+            "OTHER" -> {
+                typeDropdown.setText("Другое", false)
+                typeDropdown.tag = "OTHER"
+            }
+            "HEALTH" -> {
+                typeDropdown.setText("Здоровье", false)
+                typeDropdown.tag = "HEALTH"
+            }
+        }
 
     }
 
@@ -164,11 +214,11 @@ class ReminderFragment : Fragment() {
 
     private fun saveReminder() {
         val reminder = Reminder().apply {
-            //TODO добавить тип события
             id = arguments?.getInt("reminderId") ?: 0
             description = binding.remainderDescription.text.toString()
             date = currentDateReminder ?: viewModel.reminder.value?.date
             geckoId = selectedGeckoId ?: viewModel.reminder.value?.geckoId
+            type = binding.reminderType.tag?.toString() ?: ""
         }
 
         viewModel.saveReminder(reminder)
@@ -176,8 +226,13 @@ class ReminderFragment : Fragment() {
     }
 
     private fun alertSaveReminder() {
-        // TODO добавить проверку на пустую дату
-        saveReminder()
+        if (binding.reminderDate.text.toString() == ""){
+            Snackbar.make(binding.root,
+                "Ошибка! Необходимо добавить дату",
+                Snackbar.LENGTH_SHORT).show()
+        } else {
+            saveReminder()
+        }
     }
 
     private fun deleteReminder() {

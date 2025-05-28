@@ -351,7 +351,6 @@ class PetEditFragment : Fragment() {
         }
     }
 
-    // TODO
     // Функции для создания событий
     private fun createFoodEvent() {
         val bundle = bundleOf(
