@@ -23,4 +23,7 @@ interface EventDao {
 
     @Query("DELETE FROM events WHERE id = :id")
     fun deleteEvent(id: Int)
+
+    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 4")
+    fun get4LastFeeds(geckoId: Int): LiveData<List<Event>>
 }

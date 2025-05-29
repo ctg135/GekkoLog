@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Visibility
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import salabaev.gekkolog.R
@@ -113,6 +114,10 @@ class ReminderFragment : Fragment() {
 
     // Установка параметров view
     private fun setupViews() {
+        if (arguments?.getInt("reminderId") == 0) {
+            binding.doneButton.visibility = View.GONE
+        }
+
         binding.doneButton.setOnClickListener { doneReminder() }
         binding.saveButton.setOnClickListener { alertSaveReminder() }
         binding.deleteButton.setOnClickListener { alertDeleteReminder() }
@@ -152,7 +157,7 @@ class ReminderFragment : Fragment() {
                 )
                 binding.reminderPet.setAdapter(adapter)
 
-                // Устанавливаем обработчик выбора
+                // Устанавливаем обработчик выбора типа
                 binding.reminderPet.setOnItemClickListener { _, _, position, _ ->
                     selectedGeckoId = geckos[position].id
                     binding.reminderPet.setText(geckos[position].name, false)
@@ -208,8 +213,8 @@ class ReminderFragment : Fragment() {
     // TODO Функция для создания нового события на основании напоминания
     private fun doneReminder() {
         // 1. Перейти на страничку события
-        // 2. При успешном сохранении закрыть уведомление
-        // 3. При необходимости пересоздать новое уведомление
+        // 2. При необходимости пересоздать новое уведомление
+        // 3. При успешном сохранении закрыть уведомление
     }
 
     private fun saveReminder() {

@@ -29,4 +29,17 @@ class ReminderRepository(private val dao: ReminderDao) {
             dao.deleteReminder(reminderId)
         }
     }
+
+    fun deleteAutoRemainders(geckoId: Int, type: String) {
+        coroutineScope.launch(Dispatchers.IO) {
+            dao.deleteAutoRemainders(geckoId, type)
+        }
+    }
+
+    fun deleteBetweenDates(geckoId: Int, since: Long, until: Long, type: String) {
+        if (since <= until) return
+        coroutineScope.launch(Dispatchers.IO) {
+            dao.deleteBetweenDates(geckoId, since, until, type)
+        }
+    }
 }

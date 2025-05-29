@@ -17,6 +17,7 @@ import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventRepository
 import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoRepository
+import salabaev.gekkolog.data.reminder.ReminderRepository
 import salabaev.gekkolog.databinding.FragmentEventBinding
 import salabaev.gekkolog.ui.utils.DatePickerHelper
 import java.io.File
@@ -54,11 +55,14 @@ class EventFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val daoEvents = GeckosDatabase.getInstance(requireContext()).EventDao()
-        val daoGeckos = GeckosDatabase.getInstance(requireContext()).GeckoDao()
+        val db = GeckosDatabase.getInstance(requireContext())
+        val daoEvents = db.EventDao()
+        val daoGeckos = db.GeckoDao()
+        val daoRemainder = db.ReminderDao()
         viewModel = EventViewModel(
             EventRepository(daoEvents),
-            GeckoRepository(daoGeckos)
+            GeckoRepository(daoGeckos),
+            ReminderRepository(daoRemainder)
         )
         // Получаем список гекконов
         geckoList = viewModel.geckoRepository.geckoList ?: daoGeckos.getGeckos()
@@ -290,7 +294,6 @@ class EventFragment : Fragment() {
                             photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
                         }
                     }
-                    else -> {}
                 }
             }
         }
