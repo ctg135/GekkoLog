@@ -24,11 +24,13 @@ import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.gecko.GeckoRepository
 import java.io.FileOutputStream
 import androidx.core.os.bundleOf
+import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
 import salabaev.gekkolog.ui.utils.DatePickerHelper
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import salabaev.gekkolog.R
+import salabaev.gekkolog.data.event.EventRepository
 
 class PetEditFragment : Fragment() {
 
@@ -51,6 +53,10 @@ class PetEditFragment : Fragment() {
     // Переменные для получения данных из форм
     private var currentPhotoUri: Uri? = null
     private var selectedBirthDate: Long? = null
+    private var geckoLastFeed: String? = null
+    private var geckoLastWeight: String? = null
+    private var geckoLastShed: LiveData<String>? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -70,11 +76,12 @@ class PetEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val dao = GeckosDatabase.getInstance(requireContext()).GeckoDao()
-        viewModel = PetEditViewModel(GeckoRepository(dao))
+        val eventsDao = GeckosDatabase.getInstance(requireContext()).EventDao()
+        viewModel = PetEditViewModel(GeckoRepository(dao), EventRepository(eventsDao))
 
+        loadGeckoData()
         setupViews()
         observeViewModel()
-        loadGeckoData()
     }
 
     // Начальная настройка UI
@@ -133,13 +140,26 @@ class PetEditFragment : Fragment() {
         viewModel.gecko.observe(viewLifecycleOwner) { gecko ->
             gecko?.let { updateUI(it) }
         }
+        viewModel.lastWeight.observe(viewLifecycleOwner) { value ->
+            value?.let { binding.lastWeightValue.text = it }
+        }
+        viewModel.lastShed.observe(viewLifecycleOwner) { value ->
+            value?.let { binding.lastShedValue.text = it }
+        }
+        viewModel.lastFeed.observe(viewLifecycleOwner) { value ->
+            value?.let { binding.lastAteValue.text = it }
+        }
     }
 
     // Загрузка данных питомца из БД
     private fun loadGeckoData() {
         arguments?.getInt("geckoId")?.let { geckoId ->
             if (geckoId != 0) {
+                // Загрузка данных геккона
                 viewModel.loadGecko(geckoId)
+                viewModel.getLastFeed(geckoId)
+                viewModel.getLastShed(geckoId)
+                viewModel.getLastWeight(geckoId)
             }
         }
     }
@@ -150,6 +170,7 @@ class PetEditFragment : Fragment() {
         binding.nameEdit.setText(gecko.name)
         binding.morphEdit.setText(gecko.morph)
         binding.feedPeriodEdit.setText(gecko.feedPeriod?.toString() ?: "1")
+        Log.d("TEST", "show")
 
         gecko.birthDate?.let {
             selectedBirthDate = it

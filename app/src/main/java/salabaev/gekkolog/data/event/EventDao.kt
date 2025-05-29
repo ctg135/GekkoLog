@@ -26,4 +26,15 @@ interface EventDao {
 
     @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 4")
     fun get4LastFeeds(geckoId: Int): LiveData<List<Event>>
+
+    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 1")
+    fun getLastFeed(geckoId: Int): Event?
+
+    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'WEIGHT' ORDER BY date DESC LIMIT 1")
+    fun getLastWeight(geckoId: Int): Event?
+
+    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'SHED' ORDER BY date DESC LIMIT 1")
+    fun getLastShed(geckoId: Int): Event?
+
+
 }

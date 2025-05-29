@@ -50,7 +50,6 @@ class PetListAdapter : ListAdapter<Gecko, PetListAdapter.GeckoViewHolder>(GeckoD
                     else -> ""
                 }
                 geckoMorph.text = gecko.morph ?: "Морфа не указана"
-                //TODO: тут вставить умное значение для даты рождения
                 geckoAge.text = NiceDateFormatter.getNiceAge(gecko.birthDate)
 
                 binding.root.setOnClickListener {

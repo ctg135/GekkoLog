@@ -39,4 +39,16 @@ class EventRepository(private val dao: EventDao) {
     fun get4LastFeeds(geckoId: Int): LiveData<List<Event>> {
         return dao.get4LastFeeds(geckoId)
     }
+
+    fun getLastFeed(geckoId: Int): Event? {
+        return dao.getLastFeed(geckoId)
+    }
+
+    fun getLastWeight(geckoId: Int): Event? {
+        return dao.getLastWeight(geckoId)
+    }
+
+    fun getLastShed(geckoId: Int): Event? {
+        return dao.getLastShed(geckoId)
+    }
 }
