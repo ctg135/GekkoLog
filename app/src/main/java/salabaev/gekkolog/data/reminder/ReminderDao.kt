@@ -29,4 +29,7 @@ interface ReminderDao {
             "AND type = :type " +
             "AND date BETWEEN :since AND :until")
     fun deleteBetweenDates(geckoId: Int, since: Long, until: Long, type: String)
+
+    @Query("SELECT * FROM reminders WHERE date BETWEEN :since AND :until")
+    fun getReminders(since: Long, until: Long): LiveData<List<Reminder>>
 }

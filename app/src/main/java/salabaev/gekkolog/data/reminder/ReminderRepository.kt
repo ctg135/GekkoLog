@@ -42,4 +42,8 @@ class ReminderRepository(private val dao: ReminderDao) {
             dao.deleteBetweenDates(geckoId, since, until, type)
         }
     }
+
+    fun getReminders(since: Long, until: Long): LiveData<List<Reminder>> {
+        return dao.getReminders(since, until)
+    }
 }

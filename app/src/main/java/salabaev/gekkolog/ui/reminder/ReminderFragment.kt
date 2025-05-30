@@ -125,7 +125,7 @@ class ReminderFragment : Fragment() {
         val types = listOf(
             Pair("FEED", "Кормление"),
             Pair("OTHER", "Другое"),
-            Pair("HEALTH", "Кормление")
+            Pair("HEALTH", "Здоровье")
         )
 
         val adapterType = ArrayAdapter(

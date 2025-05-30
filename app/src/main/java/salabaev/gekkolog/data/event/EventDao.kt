@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import io.reactivex.internal.operators.single.SingleTakeUntil
 
 @Dao
 interface EventDao {
@@ -36,5 +37,6 @@ interface EventDao {
     @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'SHED' ORDER BY date DESC LIMIT 1")
     fun getLastShed(geckoId: Int): Event?
 
-
+    @Query("SELECT * FROM events WHERE date BETWEEN :since AND :until ")
+    fun getEvents(since: Long, until: Long): LiveData<List<Event>>
 }
