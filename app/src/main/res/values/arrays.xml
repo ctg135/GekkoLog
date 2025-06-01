@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="event_types">
+        <item>Кормление</item>
+        <item>Линька</item>
+        <item>Взвешивание</item>
+        <item>Здоровье</item>
+        <item>Другое</item>
+    </string-array>
+
+    <string-array name="event_type_values">
+        <item>FEED</item>
+        <item>SHED</item>
+        <item>WEIGHT</item>
+        <item>HEALTH</item>
+        <item>OTHER</item>
+    </string-array>
+</resources>

@@ -9,6 +9,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -94,5 +95,44 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <!-- Кнопка добавления событий (большая) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/add_event"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_event"
+        app:backgroundTint="@color/white"
+        app:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="48dp"
+        app:rippleColor="@color/gray_header"
+        app:tint="@color/black" />
+
+    <!-- Кнопка добавления уведомлений (меньшая) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
+        android:contentDescription="@string/add_reminder"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_reminder"
+        app:backgroundTint="@color/white"
+        app:elevation="6dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="36dp"
+        app:rippleColor="@color/gray_header"
+        app:tint="@color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

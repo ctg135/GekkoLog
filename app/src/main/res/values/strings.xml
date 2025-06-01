@@ -54,4 +54,6 @@
     <string name="text_today_events">Записи 📝</string>
     <string name="text_empty_reminder">Тут пока ничего нет</string>
     <string name="text_empty_event">Тут пока ничего нет</string>
+    <string name="add_event">Новая запись</string>
+    <string name="add_reminder">Новое уведмоиление</string>
 </resources>
