@@ -50,6 +50,8 @@
     <string name="title_reminder_title">Напоминание</string>
     <!-- Главная -->
     <string name="text_reminder_edit">Редактировать</string>
-    <string name="text_today_reminder">Уведомления</string>
-    <string name="text_today_events">Записи</string>
+    <string name="text_today_reminder">Уведомления 🔔</string>
+    <string name="text_today_events">Записи 📝</string>
+    <string name="text_empty_reminder">Тут пока ничего нет</string>
+    <string name="text_empty_event">Тут пока ничего нет</string>
 </resources>

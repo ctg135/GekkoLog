@@ -5,8 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.common.io.Resources.getResource
 import kotlinx.coroutines.withContext
 import salabaev.gekkolog.R
 import salabaev.gekkolog.data.gecko.Gecko
@@ -26,7 +29,7 @@ class NotificationAdapter(
         val geckoIcon: ImageView = itemView.findViewById(R.id.gecko_icon)
         val geckoName: TextView = itemView.findViewById(R.id.gecko_name)
         val editButton: View = itemView.findViewById(R.id.btn_edit)
-        val completeButton: View = itemView.findViewById(R.id.btn_complete)
+        val card: CardView = itemView.findViewById(R.id.notification_card)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
@@ -40,9 +43,24 @@ class NotificationAdapter(
         val notification = notifications[position]
 
         holder.type.text = when (notification.type) {
-            "FEED" -> "Кормление"
-            "HEALTH" -> "Здоровье"
-            else -> "Другое"
+            "FEED" -> {
+                holder.card.setCardBackgroundColor(
+                    ContextCompat.getColor(holder.itemView.context, R.color.feed_event)
+                )
+                "🍽️ Кормление"
+            }
+            "HEALTH" -> {
+                holder.card.setCardBackgroundColor(
+                    ContextCompat.getColor(holder.itemView.context, R.color.health_event)
+                )
+                "💊 Здоровье"
+            }
+            else -> {
+                holder.card.setCardBackgroundColor(
+                    ContextCompat.getColor(holder.itemView.context, R.color.other_event)
+                )
+                "⭐ Другое"
+            }
         }
 
         holder.description.text = notification.description
@@ -54,7 +72,7 @@ class NotificationAdapter(
                 .into(holder.geckoIcon)
         }
         holder.editButton.setOnClickListener { onEditClick(notification) }
-        holder.completeButton.setOnClickListener { onCompleteClick(notification) }
+        holder.card.setOnClickListener { onCompleteClick(notification) }
     }
 
     override fun getItemCount() = notifications.size

@@ -39,43 +39,57 @@ class HomeFragment : Fragment() {
         val reminderRepository = ReminderRepository(db.ReminderDao())
         val geckoRepository = GeckoRepository(db.GeckoDao())
         viewModel = HomeViewModel(eventRepository, reminderRepository, geckoRepository)
-        // Setup notifications RecyclerView
+        // Список уведомлений за сегодня
         binding.notificationsRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-        // Setup events RecyclerView
+        binding.notificationsRecycler.setHasFixedSize(true)
+        // Список событий за сегодня
         binding.eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
-
+        binding.eventsRecycler.setHasFixedSize(true)
 
         // Observe today's notifications
         viewModel.getGeckos { geckosMap ->
             viewModel.todayNotifications.observe(viewLifecycleOwner) { notifications ->
-                binding.notificationsRecycler.adapter = NotificationAdapter(
-                    notifications,
-                    geckosMap,
-                    onEditClick = { reminder ->
-                        Log.d("TEST", "Going to edit remainder " + reminder.id.toString())
-                        // Navigate to ReminderFragment for editing
-                        // findNavController().navigate(...)
-                    },
-                    onCompleteClick = { reminder ->
-                        Log.d("TEST", "Going to done reminder " + reminder.id.toString())
-                        // Navigate to EventFragment to create event
-                        // findNavController().navigate(...)
-                    }
-                )
+                if (notifications.isNullOrEmpty()) {
+                    binding.emptyNotifications.visibility = View.VISIBLE
+                    binding.notificationsRecycler.visibility = View.GONE
+                } else {
+                    binding.emptyNotifications.visibility = View.GONE
+                    binding.notificationsRecycler.visibility = View.VISIBLE
+                    binding.notificationsRecycler.adapter = NotificationAdapter(
+                        notifications,
+                        geckosMap,
+                        onEditClick = { reminder ->
+                            Log.d("TEST", "Going to edit remainder " + reminder.id.toString())
+                            // Navigate to ReminderFragment for editing
+                            // findNavController().navigate(...)
+                        },
+                        onCompleteClick = { reminder ->
+                            Log.d("TEST", "Going to done reminder " + reminder.id.toString())
+                            // Navigate to EventFragment to create event
+                            // findNavController().navigate(...)
+                        }
+                    )
+                }
             }
 
             // Observe today's events
             viewModel.todayEvents.observe(viewLifecycleOwner) { events ->
-                binding.eventsRecycler.adapter = EventAdapter(
-                    events,
-                    geckosMap,
-                    onItemClick = { event ->
-                        Log.d("TEST", "Going to event " + event.id.toString())
-                        // Navigate to EventFragment for editing
-                        // findNavController().navigate(...)
-                    }
-                )
+                if (events.isNullOrEmpty()) {
+                    binding.eventsRecycler.visibility = View.GONE
+                    binding.emptyEvents.visibility = View.VISIBLE
+                } else {
+                    binding.emptyEvents.visibility = View.GONE
+                    binding.eventsRecycler.visibility = View.VISIBLE
+                    binding.eventsRecycler.adapter = EventAdapter(
+                        events,
+                        geckosMap,
+                        onItemClick = { event ->
+                            Log.d("TEST", "Going to event " + event.id.toString())
+                            // Navigate to EventFragment for editing
+                            // findNavController().navigate(...)
+                        }
+                    )
+                }
             }
         }
         // Get today's date range (start and end of day)

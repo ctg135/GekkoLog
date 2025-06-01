@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="separator_color">#D9000000</color>
+    <color name="feed_event">#DBFFB4</color>
+    <color name="shed_event">#FFF9B7</color>
+    <color name="weight_event">#BEE7FF</color>
+    <color name="other_event">#DEDDDD</color>
+    <color name="health_event">#FFBCCA</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="gray_header">#4B4B4B</color>
 </resources>

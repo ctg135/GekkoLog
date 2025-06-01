@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="24dp"
-    android:layout_marginBottom="72dp"
+    android:layout_marginBottom="80dp"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
@@ -16,7 +16,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <!-- Уведомления -->
             <TextView
                 android:id="@+id/text_notifications"
                 android:layout_width="match_parent"
@@ -26,6 +26,7 @@
                 android:text="@string/text_today_reminder"
                 android:textSize="18sp"
                 android:textStyle="bold"
+                android:textColor="@color/gray_header"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="16dp" />
 
@@ -36,20 +37,34 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintTop_toBottomOf="@id/text_notifications" />
 
+            <TextView
+                android:id="@+id/empty_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/text_empty_reminder"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/notifications_recycler" />
+
+            <!-- Записи -->
             <TextView
                 android:id="@+id/text_events"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/text_today_events"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/notifications_recycler"
+                android:textColor="@color/gray_header"
+                app:layout_constraintTop_toBottomOf="@id/empty_notifications"
                 tools:layout_editor_absoluteX="16dp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -61,6 +76,20 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/text_events" />
+
+            <TextView
+                android:id="@+id/empty_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/text_empty_event"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/text_events" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
