@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -134,6 +135,7 @@ class EventFragment : Fragment() {
                 else -> {}
             }
         }
+
         // Настройка обработчиков
         binding.eventImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveEvent() }
@@ -170,6 +172,9 @@ class EventFragment : Fragment() {
                     }
                 }
             }
+        }
+        arguments?.getInt("reminderId")?.let {
+            binding.eventPet.isEnabled = false
         }
     }
 
@@ -298,6 +303,11 @@ class EventFragment : Fragment() {
             }
         }
         viewModel.saveEvent(event)
+
+        arguments?.getInt("reminderId")?.let {
+            viewModel.deleteReminder(it)
+        }
+
         findNavController().popBackStack()
     }
 

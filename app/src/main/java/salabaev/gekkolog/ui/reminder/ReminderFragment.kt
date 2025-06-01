@@ -8,7 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Visibility
 import com.google.android.material.snackbar.Snackbar
@@ -210,11 +212,23 @@ class ReminderFragment : Fragment() {
 
     }
 
-    // TODO Функция для создания нового события на основании напоминания
     private fun doneReminder() {
-        // 1. Перейти на страничку события
-        // 2. При необходимости пересоздать новое уведомление
-        // 3. При успешном сохранении закрыть уведомление
+
+        val reminder = Reminder().apply {
+            id = arguments?.getInt("reminderId") ?: 0
+            description = binding.remainderDescription.text.toString()
+            date = currentDateReminder ?: viewModel.reminder.value?.date
+            geckoId = selectedGeckoId ?: viewModel.reminder.value?.geckoId
+            type = binding.reminderType.tag?.toString() ?: ""
+        }
+
+        val bundle = bundleOf(
+            "reminderId" to reminder.id,
+            "geckoId" to reminder.geckoId,
+            "eventType" to reminder.type,
+            "eventId" to 0)
+        binding.root.findNavController()
+            .navigate(R.id.action_reminderFragment_to_eventFragment, bundle)
     }
 
     private fun saveReminder() {

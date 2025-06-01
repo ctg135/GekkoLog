@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GeckoRepository(private val dao: GeckoDao) {
     private val corotineScope = CoroutineScope(Dispatchers.Main)
@@ -31,5 +32,11 @@ class GeckoRepository(private val dao: GeckoDao) {
             dao.deleteGecko(geckoId)
         }
     }
-
+    suspend fun getGeckoSync(geckoId: Int): Gecko {
+        return withContext(Dispatchers.IO) {
+            // Здесь реализация синхронного получения геккона из БД
+            // Например, если вы используете Room:
+            return@withContext dao.getGeckoSync(geckoId)
+        }
+    }
 }

@@ -27,7 +27,7 @@ interface ReminderDao {
     @Query("DELETE FROM reminders " +
             "WHERE geckoId = :geckoId " +
             "AND type = :type " +
-            "AND date BETWEEN :since AND :until")
+            "AND date >= :since AND date <= :until")
     fun deleteBetweenDates(geckoId: Int, since: Long, until: Long, type: String)
 
     @Query("SELECT * FROM reminders WHERE date BETWEEN :since AND :until")

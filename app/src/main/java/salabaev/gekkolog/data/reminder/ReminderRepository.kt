@@ -37,7 +37,6 @@ class ReminderRepository(private val dao: ReminderDao) {
     }
 
     fun deleteBetweenDates(geckoId: Int, since: Long, until: Long, type: String) {
-        if (since <= until) return
         coroutineScope.launch(Dispatchers.IO) {
             dao.deleteBetweenDates(geckoId, since, until, type)
         }

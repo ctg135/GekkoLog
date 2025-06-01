@@ -15,6 +15,9 @@ interface GeckoDao {
     @Query("SELECT * FROM geckos WHERE id = :id")
     fun getGecko(id: Int): LiveData<Gecko>
 
+    @Query("SELECT * FROM geckos WHERE id = :id")
+    fun getGeckoSync(id: Int): Gecko
+
     @Insert
     fun addGecko(gecko: Gecko)
 

@@ -70,5 +70,9 @@
         android:id="@+id/reminderFragment"
         android:name="salabaev.gekkolog.ui.reminder.ReminderFragment"
         android:label="@string/title_reminder_title"
-        tools:layout="@layout/fragment_reminder" />
+        tools:layout="@layout/fragment_reminder" >
+        <action
+            android:id="@+id/action_reminderFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+    </fragment>
 </navigation>

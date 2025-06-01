@@ -46,10 +46,10 @@ class HomeFragment : Fragment() {
         viewModel = HomeViewModel(eventRepository, reminderRepository, geckoRepository)
         // Список уведомлений за сегодня
         binding.notificationsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.notificationsRecycler.setHasFixedSize(true)
+//        binding.notificationsRecycler.setHasFixedSize(true)
         // Список событий за сегодня
         binding.eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.eventsRecycler.setHasFixedSize(true)
+//        binding.eventsRecycler.setHasFixedSize(true)
 
         // Observe today's notifications
         viewModel.getGeckos { geckosMap ->
@@ -71,9 +71,13 @@ class HomeFragment : Fragment() {
                                 .navigate(R.id.action_navigation_home_to_reminderFragment, bundle)
                         },
                         onCompleteClick = { reminder ->
-                            Log.d("TEST", "Going to done reminder " + reminder.id.toString())
-                            // Navigate to EventFragment to create event
-                            // findNavController().navigate(...)
+                            val bundle = bundleOf(
+                                "reminderId" to reminder.id,
+                                "geckoId" to reminder.geckoId,
+                                "eventType" to reminder.type,
+                                "eventId" to 0)
+                            binding.root.findNavController()
+                                .navigate(R.id.action_navigation_home_to_eventFragment, bundle)
                         }
                     )
                 }

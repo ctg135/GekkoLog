@@ -6,7 +6,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import io.reactivex.internal.operators.single.SingleTakeUntil
 
 @Dao
 interface EventDao {
@@ -25,8 +24,8 @@ interface EventDao {
     @Query("DELETE FROM events WHERE id = :id")
     fun deleteEvent(id: Int)
 
-    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 4")
-    fun get4LastFeeds(geckoId: Int): LiveData<List<Event>>
+    @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 3")
+    fun getLast3FeedsSync(geckoId: Int): List<Event>
 
     @Query("SELECT * FROM events WHERE geckoId = :geckoId AND type = 'FEED' ORDER BY date DESC LIMIT 1")
     fun getLastFeed(geckoId: Int): Event?

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EventRepository(private val dao: EventDao) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -36,8 +37,11 @@ class EventRepository(private val dao: EventDao) {
         }
     }
 
-    fun get4LastFeeds(geckoId: Int): LiveData<List<Event>> {
-        return dao.get4LastFeeds(geckoId)
+    suspend fun get3LastFeedsSync(geckoId: Int): List<Event> {
+        return withContext(Dispatchers.IO) {
+            // Реализация синхронного получения событий
+            return@withContext dao.getLast3FeedsSync(geckoId)
+        }
     }
 
     fun getLastFeed(geckoId: Int): Event? {
