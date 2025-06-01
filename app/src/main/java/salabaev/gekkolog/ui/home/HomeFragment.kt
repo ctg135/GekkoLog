@@ -64,9 +64,11 @@ class HomeFragment : Fragment() {
                         notifications,
                         geckosMap,
                         onEditClick = { reminder ->
-                            Log.d("TEST", "Going to edit remainder " + reminder.id.toString())
-                            // Navigate to ReminderFragment for editing
-                            // findNavController().navigate(...)
+                            val bundle = bundleOf(
+                                "reminderId" to reminder.id
+                            )
+                            binding.root.findNavController()
+                                .navigate(R.id.action_navigation_home_to_reminderFragment, bundle)
                         },
                         onCompleteClick = { reminder ->
                             Log.d("TEST", "Going to done reminder " + reminder.id.toString())
@@ -89,9 +91,10 @@ class HomeFragment : Fragment() {
                         events,
                         geckosMap,
                         onItemClick = { event ->
-                            Log.d("TEST", "Going to event " + event.id.toString())
-                            // Navigate to EventFragment for editing
-                            // findNavController().navigate(...)
+                            val bundle = bundleOf("eventId" to event.id,
+                                "eventType" to event.type)
+                            binding.root.findNavController()
+                                .navigate(R.id.action_navigation_home_to_eventFragment, bundle)
                         }
                     )
                 }
