@@ -97,4 +97,15 @@ object DatePickerHelper {
     fun formatDateTime(timestamp: Long): String {
         return formatDateTime(Date(timestamp))
     }
+
+
+    fun dateStringToTimestamp(dateString: String, pattern: String = "dd.MM.yyyy"): Long {
+        return try {
+            val dateFormat = SimpleDateFormat(pattern, Locale.getDefault())
+            val date = dateFormat.parse(dateString)
+            date?.time ?: 0L
+        } catch (e: Exception) {
+            0L // или выбросить исключение, если нужно
+        }
+    }
 }

@@ -21,6 +21,7 @@ import salabaev.gekkolog.ui.home.EventAdapter
 import salabaev.gekkolog.ui.home.NotificationAdapter
 import salabaev.gekkolog.ui.utils.DatePickerHelper
 import java.util.Calendar
+import java.util.Date
 
 class JournalFragment : Fragment() {
 
@@ -44,7 +45,7 @@ class JournalFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.datePicker.setText("")
+        updateList()
     }
 
     override fun onCreateView(
@@ -68,7 +69,9 @@ class JournalFragment : Fragment() {
         binding.eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
         //
         binding.datePicker.setOnClickListener { showDatePicker() }
-
+        selectedDate?.let {
+            binding.datePicker.setText(DatePickerHelper.formatDate(it))
+        }
 
         // Обработчики кликов по FAB
         binding.fabAddEvent.setOnClickListener {
@@ -77,7 +80,8 @@ class JournalFragment : Fragment() {
         binding.fabAddReminder.setOnClickListener {
             val bundle = bundleOf(
                 "geckoId" to (arguments?.getInt("geckoId") ?: 0),
-                "reminderType" to "OTHER"
+                "reminderType" to "OTHER",
+                "date" to selectedDate
             )
             binding.root.findNavController()
                 .navigate(R.id.action_navigation_journal_to_reminderFragment, bundle)
@@ -139,9 +143,19 @@ class JournalFragment : Fragment() {
     }
 
     private fun updateList() {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = selectedDate!!
+        val time = DatePickerHelper.dateStringToTimestamp(binding.datePicker.text.toString())
+        val target = if (time > 0) {
+            time
+        } else {
+            selectedDate ?: Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 0)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+            }.timeInMillis
         }
+
+        val calendar = Calendar.getInstance().apply { timeInMillis = target }
+
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
@@ -151,7 +165,6 @@ class JournalFragment : Fragment() {
         calendar.set(Calendar.MINUTE, 59)
         calendar.set(Calendar.SECOND, 59)
         val endOfDay = calendar.timeInMillis
-
         // Load data
         viewModel.loadTodayNotifications(startOfDay, endOfDay)
         viewModel.loadTodayEvents(startOfDay, endOfDay)
@@ -174,7 +187,8 @@ class JournalFragment : Fragment() {
                 val bundle = bundleOf(
                     "eventType" to selectedType,
                     "eventId" to 0,
-                    "geckoId" to (arguments?.getInt("geckoId") ?: 0))
+                    "geckoId" to (arguments?.getInt("geckoId") ?: 0),
+                    "date" to selectedDate)
                 binding.root.findNavController()
                     .navigate(R.id.action_navigation_journal_to_eventFragment, bundle)
             }

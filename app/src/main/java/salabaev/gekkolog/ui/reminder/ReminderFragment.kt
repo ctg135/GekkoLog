@@ -85,7 +85,6 @@ class ReminderFragment : Fragment() {
             if (reminderId != 0) {
                 viewModel.loadReminder(reminderId)
             } else {
-
                 // Устанавливаем выбранного геккона для нового события
                 selectedGeckoId?.let { geckoId ->
                     viewModel.geckoRepository.getGecko(geckoId).observe(viewLifecycleOwner) { gecko ->
@@ -94,6 +93,14 @@ class ReminderFragment : Fragment() {
                         }
                     }
                 }
+                // Загрузка даты
+                var currentDate = Calendar.getInstance().apply {
+                    set(Calendar.DAY_OF_MONTH, get(Calendar.DAY_OF_MONTH) + 1)
+                }.timeInMillis
+                arguments?.getLong("date")?.let { currentDate = it }
+                viewModel.reminder.value?.date = currentDate
+                currentDateReminder = currentDate
+                binding.reminderDate.setText(DatePickerHelper.formatDateTime(currentDate))
                 // Первоначальная установка типа
                 val typeDropdown = binding.reminderType
                 when (reminderType) {

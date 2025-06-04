@@ -82,7 +82,9 @@ class EventFragment : Fragment() {
             if (eventId != 0) {
                 viewModel.loadEvent(eventId)
             } else {
-                val currentDate = Calendar.getInstance().timeInMillis
+
+                var currentDate = Calendar.getInstance().timeInMillis
+                arguments?.getLong("date")?.let { currentDate = it }
                 viewModel.event.value?.date = currentDate
                 currentDateEvent = currentDate
                 binding.eventDate.setText(DatePickerHelper.formatDateTime(currentDate))
