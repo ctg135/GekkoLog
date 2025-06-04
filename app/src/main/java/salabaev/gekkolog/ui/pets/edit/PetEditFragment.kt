@@ -239,7 +239,6 @@ class PetEditFragment : Fragment() {
             gender = binding.genderEdit.tag?.toString() ?: ""
             feedPeriod = binding.feedPeriodEdit.text.toString().toIntOrNull() ?: 1
             birthDate = selectedBirthDate ?: viewModel.gecko.value?.birthDate
-            // TODO: Добавить автоматическое пересоздание напоминания кормления
             viewModel.gecko.observe(viewLifecycleOwner) { geckoViewModel ->
                 if (currentPhotoUri != null) {
                     // Если выбрано новое фото

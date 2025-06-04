@@ -56,4 +56,6 @@
     <string name="text_empty_event">Тут пока ничего нет</string>
     <string name="add_event">Новая запись</string>
     <string name="add_reminder">Новое уведмоиление</string>
+    <!-- Уведомления -->
+    <string name="text_date_picker">Дата</string>
 </resources>

@@ -44,7 +44,6 @@ class HomeViewModel(
     fun getGeckos(callback: (Map<Int, Gecko>) -> Unit) {
         geckoRepository.geckoList?.observeForever { geckos: List<Gecko> ->
             callback(geckos.associateBy { it.id })
-            // Важно: после получения результата нужно удалить observer
             geckoRepository.geckoList.removeObserver { geckos }
         }
     }

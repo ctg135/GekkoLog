@@ -31,8 +31,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,12 +44,8 @@ class HomeFragment : Fragment() {
         viewModel = HomeViewModel(eventRepository, reminderRepository, geckoRepository)
         // Список уведомлений за сегодня
         binding.notificationsRecycler.layoutManager = LinearLayoutManager(requireContext())
-//        binding.notificationsRecycler.setHasFixedSize(true)
         // Список событий за сегодня
         binding.eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
-//        binding.eventsRecycler.setHasFixedSize(true)
-
-        // Observe today's notifications
         viewModel.getGeckos { geckosMap ->
             viewModel.todayNotifications.observe(viewLifecycleOwner) { notifications ->
                 if (notifications.isNullOrEmpty()) {
@@ -82,8 +76,6 @@ class HomeFragment : Fragment() {
                     )
                 }
             }
-
-            // Observe today's events
             viewModel.todayEvents.observe(viewLifecycleOwner) { events ->
                 if (events.isNullOrEmpty()) {
                     binding.eventsRecycler.visibility = View.GONE
@@ -116,7 +108,6 @@ class HomeFragment : Fragment() {
         calendar.set(Calendar.SECOND, 59)
         val endOfDay = calendar.timeInMillis
 
-        // Обработчики кликов по FAB
         binding.fabAddEvent.setOnClickListener {
             showEventTypeDialog()
         }
@@ -128,16 +119,12 @@ class HomeFragment : Fragment() {
             binding.root.findNavController()
                 .navigate(R.id.action_navigation_home_to_reminderFragment, bundle)
         }
-        // Load data
         viewModel.loadTodayNotifications(startOfDay, endOfDay)
         viewModel.loadTodayEvents(startOfDay, endOfDay)
     }
 
 
     private fun showEventTypeDialog() {
-
-
-
         val eventTypes = resources.getStringArray(R.array.event_types)
         val eventTypeValues = resources.getStringArray(R.array.event_type_values)
 
