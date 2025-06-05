@@ -6,9 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import salabaev.gekkolog.R
+import salabaev.gekkolog.databinding.FragmentInfoBinding
 
 class InfoFragment : Fragment() {
+
+    private var _binding: FragmentInfoBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance() = InfoFragment()
@@ -18,14 +23,23 @@ class InfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_info, container, false)
+        // Inflate the layout for this fragment
+        _binding = FragmentInfoBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.headingTerrarium.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_terrariumFragment)
+        }
+
     }
 }
