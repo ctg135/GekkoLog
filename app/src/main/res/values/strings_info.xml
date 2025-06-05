@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="heading_conditions">📖 Условия содержания</string>
+    <string name="heading_terrarium">🏡 ️Террариум</string>
+    <string name="heading_tools">🧰 Оборудование</string>
+    <string name="heading_temp">🌡️ Температура и влажность</string>
+    <string name="heading_feed">🍽️ Кормление</string>
+    <string name="heading_feed_objects">🦗 Кормовые объекты (чем кормить)</string>
+    <string name="heading_feed_time">🕗 График кормления</string>
+    <string name="heading_feed_additions">🧪 Добавки (Кальций и Витамины)</string>
+    <string name="heading_feed_cancel">❌ Причины отказа от еды</string>
+    <string name="heading_health">❤️ Про здоровье</string>
+    <string name="heading_health_tools">🩺 "Аптечка" питомца</string>
+    <string name="heading_health_shed">🦎 Линька</string>
+    <string name="heading_health_weight">⚖️ Про вес</string>
+    <string name="heading_health_adaptation">🛺 Адаптация</string>
+</resources>

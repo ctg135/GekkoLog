@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
     tools:context=".ui.info.InfoFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="This is info"
-        android:textSize="48sp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/heading_condition"
+        android:text="@string/heading_conditions"
+        style="@style/info_heading"/>
+    <TextView
+        android:id="@+id/heading_terrarium"
+        android:text="@string/heading_terrarium"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_tools"
+        android:text="@string/heading_tools"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_temp"
+        android:text="@string/heading_temp"
+        style="@style/info_heading1"/>
+
+    <TextView
+        android:id="@+id/heading_feed"
+        android:text="@string/heading_feed"
+        style="@style/info_heading"/>
+    <TextView
+        android:id="@+id/heading_feed_objects"
+        android:text="@string/heading_feed_objects"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_feed_time"
+        android:text="@string/heading_feed_time"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_feed_additions"
+        android:text="@string/heading_feed_additions"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_feed_cancel"
+        android:text="@string/heading_feed_cancel"
+        style="@style/info_heading1"/>
+
+    <TextView
+        android:id="@+id/heading_health"
+        android:text="@string/heading_health"
+        style="@style/info_heading"/>
+    <TextView
+        android:id="@+id/heading_health_tools"
+        android:text="@string/heading_health_tools"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_health_shed"
+        android:text="@string/heading_health_shed"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_health_weight"
+        android:text="@string/heading_health_weight"
+        style="@style/info_heading1"/>
+    <TextView
+        android:id="@+id/heading_health_adaptation"
+        android:text="@string/heading_health_adaptation"
+        style="@style/info_heading1"/>
+
+</LinearLayout>
+
+
+
+
+
+</ScrollView>
