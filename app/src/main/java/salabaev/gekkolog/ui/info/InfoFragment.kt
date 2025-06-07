@@ -53,6 +53,9 @@ class InfoFragment : Fragment() {
         binding.headingFeedTime.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_timeFragment)
         }
+        binding.headingFeedAdditions.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_additionsFragment)
+        }
 
     }
 }
