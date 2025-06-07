@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_navigation_info_to_additionsFragment"
             app:destination="@id/additionsFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_cancelFragment"
+            app:destination="@id/cancelFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -124,4 +127,9 @@
         android:name="salabaev.gekkolog.ui.info.feed.AdditionsFragment"
         android:label="@string/heading_feed_additions"
         tools:layout="@layout/fragment_additions" />
+    <fragment
+        android:id="@+id/cancelFragment"
+        android:name="salabaev.gekkolog.ui.info.feed.CancelFragment"
+        android:label="@string/heading_feed_cancel"
+        tools:layout="@layout/fragment_cancel" />
 </navigation>

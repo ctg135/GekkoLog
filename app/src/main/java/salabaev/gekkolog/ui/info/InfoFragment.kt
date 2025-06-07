@@ -47,6 +47,7 @@ class InfoFragment : Fragment() {
         binding.headingTemp.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_tempertatureFragment)
         }
+        // Раздел кормления
         binding.headingFeedObjects.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_foodFragment)
         }
@@ -56,6 +57,8 @@ class InfoFragment : Fragment() {
         binding.headingFeedAdditions.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_additionsFragment)
         }
-
+        binding.headingFeedCancel.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_cancelFragment)
+        }
     }
 }
