@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="24dp"
     android:layout_marginBottom="80dp"
+    android:background="@color/background_color"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
@@ -108,12 +109,12 @@
         android:focusable="true"
         android:src="@drawable/ic_add_event"
         app:backgroundTint="@color/white"
+        app:tint="@color/black"
         app:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="48dp"
-        app:rippleColor="@color/gray_header"
-        app:tint="@color/black" />
+        app:rippleColor="@color/gray_header" />
 
     <!-- Кнопка добавления уведомлений (меньшая) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

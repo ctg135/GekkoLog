@@ -32,4 +32,25 @@
         <item name="android:lineSpacingExtra">3sp</item>
     </style>
 
+    <style name="text_input_layout_style" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <!-- Цвет фона -->
+        <item name="boxBackgroundColor">@color/pinky_less</item>
+        <!-- Цвет рамки в неактивном состоянии -->
+        <item name="boxStrokeColor">@color/pinky_less</item>
+        <!-- Цвет рамки в активном состоянии -->
+        <item name="hintTextColor">@color/gray_header</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="android:textColorHint">@color/gray_header</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+    </style>
+
+    <!-- Базовый стиль для FAB -->
+    <style name="Widget.App.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+
+    </style>
+
 </resources>
