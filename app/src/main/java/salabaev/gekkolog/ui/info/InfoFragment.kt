@@ -64,6 +64,8 @@ class InfoFragment : Fragment() {
         binding.headingHealthTools.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_healthToolsFragment)
         }
-
+        binding.headingHealthShed.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_shedFragment)
+        }
     }
 }

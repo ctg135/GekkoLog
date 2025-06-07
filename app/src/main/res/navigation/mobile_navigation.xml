@@ -74,6 +74,9 @@
         <action
             android:id="@+id/action_navigation_info_to_healthToolsFragment"
             app:destination="@id/healthToolsFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_shedFragment"
+            app:destination="@id/shedFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -140,4 +143,9 @@
         android:name="salabaev.gekkolog.ui.info.health.HealthToolsFragment"
         android:label="@string/heading_health_tools"
         tools:layout="@layout/fragment_health_tools" />
+    <fragment
+        android:id="@+id/shedFragment"
+        android:name="salabaev.gekkolog.ui.info.health.ShedFragment"
+        android:label="@string/heading_health_shed"
+        tools:layout="@layout/fragment_shed" />
 </navigation>
