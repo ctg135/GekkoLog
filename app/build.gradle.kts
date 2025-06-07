@@ -87,4 +87,7 @@ dependencies {
 
     // Glide, for images
     implementation("com.github.bumptech.glide:glide:4.12.0")
+
+    // For splashscreen
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
