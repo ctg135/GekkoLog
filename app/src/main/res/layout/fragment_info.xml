@@ -12,6 +12,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:textStyle=""
         android:id="@+id/heading_condition"
         android:text="@string/heading_conditions"
         style="@style/info_heading"/>

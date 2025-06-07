@@ -29,6 +29,7 @@
         <item name="android:singleLine">false</item>
         <item name="android:breakStrategy">simple</item>
         <item name="android:maxLines">100</item>
+        <item name="android:lineSpacingExtra">3sp</item>
     </style>
 
 </resources>
