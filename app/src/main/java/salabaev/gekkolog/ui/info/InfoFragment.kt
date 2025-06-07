@@ -47,6 +47,9 @@ class InfoFragment : Fragment() {
         binding.headingTemp.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_tempertatureFragment)
         }
+        binding.headingFeedObjects.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_foodFragment)
+        }
 
     }
 }

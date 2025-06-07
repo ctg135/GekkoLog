@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_navigation_info_to_tempertatureFragment"
             app:destination="@id/tempertatureFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_foodFragment"
+            app:destination="@id/foodFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -100,4 +103,9 @@
         android:name="salabaev.gekkolog.ui.info.conditions.TempertatureFragment"
         android:label="@string/heading_temp"
         tools:layout="@layout/fragment_tempertature" />
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="salabaev.gekkolog.ui.info.feed.FoodFragment"
+        android:label="@string/heading_feed_objects"
+        tools:layout="@layout/fragment_food" />
 </navigation>
