@@ -84,7 +84,9 @@ class EventFragment : Fragment() {
             } else {
 
                 var currentDate = Calendar.getInstance().timeInMillis
-                arguments?.getLong("date")?.let { currentDate = it }
+                arguments?.getLong("date")?.let {
+                    if (it != 0L) currentDate = it
+                }
                 viewModel.event.value?.date = currentDate
                 currentDateEvent = currentDate
                 binding.eventDate.setText(DatePickerHelper.formatDateTime(currentDate))
@@ -175,8 +177,8 @@ class EventFragment : Fragment() {
                 }
             }
         }
-        arguments?.getInt("reminderId")?.let {
-            binding.eventPet.isEnabled = false
+        arguments?.getBoolean("lockPet")?.let {
+            binding.eventPet.isEnabled = !it
         }
     }
 

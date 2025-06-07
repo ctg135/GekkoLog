@@ -97,7 +97,9 @@ class ReminderFragment : Fragment() {
                 var currentDate = Calendar.getInstance().apply {
                     set(Calendar.DAY_OF_MONTH, get(Calendar.DAY_OF_MONTH) + 1)
                 }.timeInMillis
-                arguments?.getLong("date")?.let { currentDate = it }
+                arguments?.getLong("date")?.let {
+                    if(it != 0L) currentDate = it
+                }
                 viewModel.reminder.value?.date = currentDate
                 currentDateReminder = currentDate
                 binding.reminderDate.setText(DatePickerHelper.formatDateTime(currentDate))

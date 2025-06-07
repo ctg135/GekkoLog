@@ -69,7 +69,8 @@ class HomeFragment : Fragment() {
                                 "reminderId" to reminder.id,
                                 "geckoId" to reminder.geckoId,
                                 "eventType" to reminder.type,
-                                "eventId" to 0)
+                                "eventId" to 0,
+                                "lockPet" to true)
                             binding.root.findNavController()
                                 .navigate(R.id.action_navigation_home_to_eventFragment, bundle)
                         }

@@ -33,11 +33,7 @@ class JournalFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: JournalViewModel
 
-    private var selectedDate: Long? = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-    }.timeInMillis
+    private var selectedDate: Long? = Calendar.getInstance().timeInMillis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,11 +143,7 @@ class JournalFragment : Fragment() {
         val target = if (time > 0) {
             time
         } else {
-            selectedDate ?: Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 0)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-            }.timeInMillis
+            selectedDate ?: Calendar.getInstance().timeInMillis
         }
 
         val calendar = Calendar.getInstance().apply { timeInMillis = target }
