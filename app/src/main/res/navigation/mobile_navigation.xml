@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_navigation_info_to_cancelFragment"
             app:destination="@id/cancelFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_healthToolsFragment"
+            app:destination="@id/healthToolsFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -132,4 +135,9 @@
         android:name="salabaev.gekkolog.ui.info.feed.CancelFragment"
         android:label="@string/heading_feed_cancel"
         tools:layout="@layout/fragment_cancel" />
+    <fragment
+        android:id="@+id/healthToolsFragment"
+        android:name="salabaev.gekkolog.ui.info.health.HealthToolsFragment"
+        android:label="@string/heading_health_tools"
+        tools:layout="@layout/fragment_health_tools" />
 </navigation>

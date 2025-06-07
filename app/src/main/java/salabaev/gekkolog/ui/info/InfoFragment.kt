@@ -60,5 +60,10 @@ class InfoFragment : Fragment() {
         binding.headingFeedCancel.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_cancelFragment)
         }
+        // Раздел о здоровье
+        binding.headingHealthTools.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_healthToolsFragment)
+        }
+
     }
 }
