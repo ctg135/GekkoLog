@@ -62,6 +62,9 @@
         <action
             android:id="@+id/action_navigation_info_to_foodFragment"
             app:destination="@id/foodFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_timeFragment"
+            app:destination="@id/timeFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -108,4 +111,9 @@
         android:name="salabaev.gekkolog.ui.info.feed.FoodFragment"
         android:label="@string/heading_feed_objects"
         tools:layout="@layout/fragment_food" />
+    <fragment
+        android:id="@+id/timeFragment"
+        android:name="salabaev.gekkolog.ui.info.feed.TimeFragment"
+        android:label="@string/heading_feed_time"
+        tools:layout="@layout/fragment_time" />
 </navigation>
