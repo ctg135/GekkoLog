@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_navigation_info_to_terrariumFragment"
             app:destination="@id/terrariumFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_toolsFragment"
+            app:destination="@id/toolsFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -84,4 +87,9 @@
         android:name="salabaev.gekkolog.ui.info.conditions.TerrariumFragment"
         android:label="@string/heading_terrarium"
         tools:layout="@layout/fragment_terrarium" />
+    <fragment
+        android:id="@+id/toolsFragment"
+        android:name="salabaev.gekkolog.ui.info.conditions.ToolsFragment"
+        android:label="@string/heading_tools"
+        tools:layout="@layout/fragment_tools" />
 </navigation>

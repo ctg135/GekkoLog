@@ -37,8 +37,12 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Раздел условия содержания
         binding.headingTerrarium.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_terrariumFragment)
+        }
+        binding.headingTools.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_toolsFragment)
         }
 
     }
