@@ -10,7 +10,7 @@
         android:id="@+id/navigation_home"
         android:name="salabaev.gekkolog.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_eventFragment"
             app:destination="@id/eventFragment" />
@@ -23,20 +23,19 @@
         android:id="@+id/navigation_pets"
         android:name="salabaev.gekkolog.ui.pets.PetsFragment"
         android:label="@string/title_pets"
-        tools:layout="@layout/fragment_pets" >
+        tools:layout="@layout/fragment_pets">
         <action
             android:id="@+id/action_navigation_pets_to_petEditFragment"
             app:destination="@id/petEditFragment"
             app:popUpTo="@id/navigation_pets"
-            app:popUpToInclusive="false"
-            />
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_journal"
         android:name="salabaev.gekkolog.ui.journal.JournalFragment"
         android:label="@string/title_journal"
-        tools:layout="@layout/fragment_journal" >
+        tools:layout="@layout/fragment_journal">
         <action
             android:id="@+id/action_navigation_journal_to_eventFragment"
             app:destination="@id/eventFragment" />
@@ -49,7 +48,7 @@
         android:id="@+id/navigation_info"
         android:name="salabaev.gekkolog.ui.info.InfoFragment"
         android:label="@string/title_info"
-        tools:layout="@layout/fragment_notifications" >
+        tools:layout="@layout/fragment_notifications">
         <action
             android:id="@+id/action_navigation_info_to_terrariumFragment"
             app:destination="@id/terrariumFragment" />
@@ -77,11 +76,14 @@
         <action
             android:id="@+id/action_navigation_info_to_shedFragment"
             app:destination="@id/shedFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_weightFragment"
+            app:destination="@id/weightFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
         android:name="salabaev.gekkolog.ui.pets.edit.PetEditFragment"
-        android:label="@string/title_edit_pet" >
+        android:label="@string/title_edit_pet">
         <action
             android:id="@+id/action_petEditFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
@@ -98,7 +100,7 @@
         android:id="@+id/reminderFragment"
         android:name="salabaev.gekkolog.ui.reminder.ReminderFragment"
         android:label="@string/title_reminder_title"
-        tools:layout="@layout/fragment_reminder" >
+        tools:layout="@layout/fragment_reminder">
         <action
             android:id="@+id/action_reminderFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
@@ -148,4 +150,9 @@
         android:name="salabaev.gekkolog.ui.info.health.ShedFragment"
         android:label="@string/heading_health_shed"
         tools:layout="@layout/fragment_shed" />
+    <fragment
+        android:id="@+id/weightFragment"
+        android:name="salabaev.gekkolog.ui.info.health.WeightFragment"
+        android:label="@string/heading_health_weight"
+        tools:layout="@layout/fragment_weight" />
 </navigation>
