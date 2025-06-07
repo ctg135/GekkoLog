@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_navigation_info_to_weightFragment"
             app:destination="@id/weightFragment" />
+        <action
+            android:id="@+id/action_navigation_info_to_adaptationFragment"
+            app:destination="@id/adaptationFragment" />
     </fragment>
     <fragment
         android:id="@+id/petEditFragment"
@@ -155,4 +158,9 @@
         android:name="salabaev.gekkolog.ui.info.health.WeightFragment"
         android:label="@string/heading_health_weight"
         tools:layout="@layout/fragment_weight" />
+    <fragment
+        android:id="@+id/adaptationFragment"
+        android:name="salabaev.gekkolog.ui.info.health.AdaptationFragment"
+        android:label="@string/heading_health_adaptation"
+        tools:layout="@layout/fragment_adaptation" />
 </navigation>

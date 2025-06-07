@@ -70,5 +70,8 @@ class InfoFragment : Fragment() {
         binding.headingHealthWeight.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_weightFragment)
         }
+        binding.headingHealthAdaptation.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_info_to_adaptationFragment)
+        }
     }
 }
