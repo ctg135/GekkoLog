@@ -208,7 +208,7 @@
             android:text="@string/save" />
 
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/deletePetButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

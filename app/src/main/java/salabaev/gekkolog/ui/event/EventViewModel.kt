@@ -65,8 +65,15 @@ class EventViewModel (private val repository: EventRepository,
 
                             // Устанавливаем дату следующего кормления
                             gecko.feedPeriod?.let {
-                                val nextFeedDate = Calendar.getInstance()
-                                nextFeedDate.set(Calendar.DAY_OF_MONTH, it)
+                                val nextFeedDate = Calendar.getInstance().apply {
+                                    timeInMillis = event.date!!
+                                }
+                                if (lastFeeds.isNotEmpty()) {
+                                    lastFeeds[0].date?.let { date ->
+                                        nextFeedDate.timeInMillis = date
+                                    }
+                                }
+                                nextFeedDate.add(Calendar.DAY_OF_MONTH, it)
                                 date = nextFeedDate.timeInMillis
                             }
 

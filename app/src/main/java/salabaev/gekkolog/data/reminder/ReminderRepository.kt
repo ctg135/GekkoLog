@@ -18,6 +18,12 @@ class ReminderRepository(private val dao: ReminderDao) {
         }
     }
 
+    fun addReminder(reminder: Reminder, gecko: String) {
+        coroutineScope.launch (Dispatchers.IO) {
+            dao.addReminder(reminder)
+        }
+    }
+
     fun updateReminder(reminder: Reminder){
         coroutineScope.launch (Dispatchers.IO) {
             dao.updateReminder(reminder)

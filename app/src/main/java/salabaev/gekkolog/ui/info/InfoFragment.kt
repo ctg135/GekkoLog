@@ -52,7 +52,7 @@ class InfoFragment : Fragment() {
         binding.headingTools.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_toolsFragment)
         }
-        binding.headingTemp.underlineText(3)
+        binding.headingTemp.underlineText(4)
         binding.headingTemp.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_tempertatureFragment)
         }
@@ -69,7 +69,7 @@ class InfoFragment : Fragment() {
         binding.headingFeedAdditions.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_additionsFragment)
         }
-        binding.headingFeedCancel.underlineText(3)
+        binding.headingFeedCancel.underlineText(2)
         binding.headingFeedCancel.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_info_to_cancelFragment)
         }

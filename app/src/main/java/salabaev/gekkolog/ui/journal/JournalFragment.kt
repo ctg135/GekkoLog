@@ -84,7 +84,7 @@ class JournalFragment : Fragment() {
         }
 
         // Observe today's notifications
-        viewModel.getGeckos { geckosMap ->
+        viewModel.getGeckos(viewLifecycleOwner) { geckosMap ->
             viewModel.todayNotifications.observe(viewLifecycleOwner) { notifications ->
                 if (notifications.isNullOrEmpty()) {
                     binding.emptyNotifications.visibility = View.VISIBLE

@@ -11,9 +11,9 @@ class GeckoRepository(private val dao: GeckoDao) {
 
     val geckoList: LiveData<List<Gecko>>? = dao.getGeckos()
 
-    fun addGecko(gecko: Gecko){
-        corotineScope.launch(Dispatchers.IO) {
-            dao.addGecko(gecko)
+    suspend fun addGecko(gecko: Gecko): Int {
+        return withContext(Dispatchers.IO) {
+            dao.addGecko(gecko).toInt()
         }
     }
 
