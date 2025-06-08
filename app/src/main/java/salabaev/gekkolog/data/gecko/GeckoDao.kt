@@ -19,7 +19,7 @@ interface GeckoDao {
     fun getGeckoSync(id: Int): Gecko
 
     @Insert
-    fun addGecko(gecko: Gecko)
+    fun addGecko(gecko: Gecko): Long
 
     @Delete
     fun deleteGecko(gecko: Gecko)

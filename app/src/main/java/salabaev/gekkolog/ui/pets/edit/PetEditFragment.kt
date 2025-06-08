@@ -28,9 +28,11 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
 import salabaev.gekkolog.ui.utils.DatePickerHelper
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import salabaev.gekkolog.R
 import salabaev.gekkolog.data.event.EventRepository
+import salabaev.gekkolog.data.reminder.ReminderRepository
 
 class PetEditFragment : Fragment() {
 
@@ -77,7 +79,8 @@ class PetEditFragment : Fragment() {
 
         val dao = GeckosDatabase.getInstance(requireContext()).GeckoDao()
         val eventsDao = GeckosDatabase.getInstance(requireContext()).EventDao()
-        viewModel = PetEditViewModel(GeckoRepository(dao), EventRepository(eventsDao))
+        val reminderDao = GeckosDatabase.getInstance(requireContext()).ReminderDao()
+        viewModel = PetEditViewModel(GeckoRepository(dao), EventRepository(eventsDao), ReminderRepository(reminderDao))
 
         loadGeckoData()
         setupViews()
@@ -96,7 +99,7 @@ class PetEditFragment : Fragment() {
         // Сохранение питомца
         binding.saveButton.setOnClickListener { savePet() }
         // Удаление питомца
-        binding.deleteButton.setOnClickListener { alertDeletePet() }
+        binding.deletePetButton.setOnClickListener { alertDeletePet() }
         // Выбор периода для кормления
         binding.feedPeriodEdit.setOnClickListener { showFeedPeriodPicker() }
         // Для выбора возраста
@@ -256,6 +259,12 @@ class PetEditFragment : Fragment() {
             if (id == 0 && currentPhotoUri != null) {
                 photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
             }
+        }
+        if (gecko.name == "") {
+            Snackbar.make(binding.root,
+                "Ошибка! Необходимо дать имя питомцу",
+                Snackbar.LENGTH_SHORT).show()
+            return
         }
         viewModel.saveGecko(gecko)
         findNavController().popBackStack()

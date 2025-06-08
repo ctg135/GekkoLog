@@ -41,10 +41,9 @@ class HomeViewModel(
         }
     }
 
-    fun getGeckos(callback: (Map<Int, Gecko>) -> Unit) {
-        geckoRepository.geckoList?.observeForever { geckos: List<Gecko> ->
+    fun getGeckos(viewLifecycleOwner: androidx.lifecycle.LifecycleOwner, callback: (Map<Int, Gecko>) -> Unit) {
+        geckoRepository.geckoList?.observe(viewLifecycleOwner) { geckos: List<Gecko> ->
             callback(geckos.associateBy { it.id })
-            geckoRepository.geckoList.removeObserver { geckos }
         }
     }
 }

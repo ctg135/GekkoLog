@@ -131,7 +131,7 @@ class ReminderFragment : Fragment() {
 
         binding.doneButton.setOnClickListener { doneReminder() }
         binding.saveButton.setOnClickListener { alertSaveReminder() }
-        binding.deleteButton.setOnClickListener { alertDeleteReminder() }
+        binding.deleteReminderButton.setOnClickListener { alertDeleteReminder() }
         binding.reminderDate.setOnClickListener { showReminderDatePicker() }
         val types = listOf(
             Pair("FEED", "Кормление"),
@@ -254,7 +254,12 @@ class ReminderFragment : Fragment() {
     }
 
     private fun alertSaveReminder() {
-        if (binding.reminderDate.text.toString() == ""){
+        if (binding.reminderPet.text.toString() == "") {
+            Snackbar.make(binding.root,
+                "Ошибка! Необходимо выбрать питомца",
+                Snackbar.LENGTH_SHORT).show()
+            return
+        } else if (binding.reminderDate.text.toString() == ""){
             Snackbar.make(binding.root,
                 "Ошибка! Необходимо добавить дату",
                 Snackbar.LENGTH_SHORT).show()

@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         binding.notificationsRecycler.layoutManager = LinearLayoutManager(requireContext())
         // Список событий за сегодня
         binding.eventsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getGeckos { geckosMap ->
+        viewModel.getGeckos(viewLifecycleOwner) { geckosMap ->
             viewModel.todayNotifications.observe(viewLifecycleOwner) { notifications ->
                 if (notifications.isNullOrEmpty()) {
                     binding.emptyNotifications.visibility = View.VISIBLE

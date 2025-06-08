@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import salabaev.gekkolog.data.GeckosDatabase
 import salabaev.gekkolog.data.event.Event
 import salabaev.gekkolog.data.event.EventRepository
@@ -143,7 +144,7 @@ class EventFragment : Fragment() {
         // Настройка обработчиков
         binding.eventImage.setOnClickListener { selectImageFromGallery() }
         binding.saveButton.setOnClickListener { saveEvent() }
-        binding.deleteButton.setOnClickListener { alertDeleteEvent() }
+        binding.deleteEventButton.setOnClickListener { alertDeleteEvent() }
         binding.eventDate.setOnClickListener { showEventDatePicker() }
         // Выпадающий список питомцев
         geckoList.observe(viewLifecycleOwner) { geckos ->
@@ -258,6 +259,12 @@ class EventFragment : Fragment() {
                     "WEIGHT" -> {
                         type = "WEIGHT"
                         weight = binding.eventWeight.text.toString().toFloatOrNull()
+                        if (weight == null) {
+                            Snackbar.make(binding.root,
+                                "Ошибка! Необходимо задать вес",
+                                Snackbar.LENGTH_SHORT).show()
+                            return
+                        }
                     }
                     "HEALTH" -> {
                         type = "HEALTH"
@@ -277,6 +284,12 @@ class EventFragment : Fragment() {
                         // При создании события
                         if (id == 0 && currentPhotoUri != null) {
                             photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
+                        }
+                        if (description == null || description == "") {
+                            Snackbar.make(binding.root,
+                                "Ошибка! Необходимо задать описание",
+                                Snackbar.LENGTH_SHORT).show()
+                            return
                         }
                     }
                     "OTHER" -> {
@@ -302,9 +315,21 @@ class EventFragment : Fragment() {
                         if (id == 0 && currentPhotoUri != null) {
                             photoPath = saveImageToInternalStorage(currentPhotoUri!!).absolutePath
                         }
+                        if (description == null || description == "") {
+                            Snackbar.make(binding.root,
+                                "Ошибка! Необходимо задать описание",
+                                Snackbar.LENGTH_SHORT).show()
+                            return
+                        }
                     }
                 }
             }
+        }
+        if (event.geckoId == 0) {
+            Snackbar.make(binding.root,
+                "Ошибка! Необходимо выбрать питомца",
+                Snackbar.LENGTH_SHORT).show()
+            return
         }
         viewModel.saveEvent(event)
 
