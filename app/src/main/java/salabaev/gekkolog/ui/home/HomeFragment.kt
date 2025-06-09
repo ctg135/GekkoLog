@@ -120,7 +120,7 @@ class HomeFragment : Fragment() {
             binding.root.findNavController()
                 .navigate(R.id.action_navigation_home_to_reminderFragment, bundle)
         }
-        viewModel.loadTodayNotifications(startOfDay, endOfDay)
+        viewModel.loadTodayNotifications(0L, endOfDay)
         viewModel.loadTodayEvents(startOfDay, endOfDay)
     }
 

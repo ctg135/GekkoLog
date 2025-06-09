@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +15,9 @@ import kotlinx.coroutines.withContext
 import salabaev.gekkolog.R
 import salabaev.gekkolog.data.gecko.Gecko
 import salabaev.gekkolog.data.reminder.Reminder
+import salabaev.gekkolog.ui.utils.DatePickerHelper
 import java.io.File
+import java.util.Calendar
 
 class NotificationAdapter(
     private val notifications: List<Reminder>,
@@ -62,6 +65,11 @@ class NotificationAdapter(
                 "⭐ Другое"
             }
         }
+        if (notification.date!! < getTodayDate()) {
+            holder.type.apply {
+                text = text.toString() + " (" + DatePickerHelper.formatDateTime(notification.date!!) + ")"
+            }
+        }
 
         holder.description.text = notification.description
         holder.geckoName.text = geckos[notification.geckoId]?.name
@@ -76,4 +84,12 @@ class NotificationAdapter(
     }
 
     override fun getItemCount() = notifications.size
+
+    private fun getTodayDate(): Long {
+        return Calendar.getInstance().apply {
+            set(Calendar.HOUR, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }.timeInMillis
+    }
 }
